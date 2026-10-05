@@ -6,7 +6,7 @@
 *Projetado especialmente para Lenovo Legion Go, ASUS ROG Ally, Steam Deck (Windows) e PCs Gamer.*
 
 [![Platform](https://img.shields.io/badge/Plataforma-Windows%2011%20%7C%2010%20(x64)-blue?style=for-the-badge&logo=windows)](https://microsoft.com/windows)
-[![Version](https://img.shields.io/badge/Versão-3.1.0-green?style=for-the-badge)](https://github.com)
+[![Version](https://img.shields.io/badge/Versão-Beta%200.1-green?style=for-the-badge)](https://github.com)
 [![Controller](https://img.shields.io/badge/Controle-XInput%20%2F%20Legion%20Go-orange?style=for-the-badge&logo=xbox)](https://xbox.com)
 [![Performance](https://img.shields.io/badge/Desempenho-60%2B%20FPS%20APU-purple?style=for-the-badge)](https://amd.com)
 [![Status](https://img.shields.io/badge/Instalador-All--in--One%20Standalone-brightgreen?style=for-the-badge)](Instalador_yLauncher.exe)
