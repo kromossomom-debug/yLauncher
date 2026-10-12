@@ -1,0 +1,6 @@
+*.md text eol=lf
+*.sha256 text eol=lf
+*.exe binary
+*.zip binary
+*.gif binary
+*.jpg binary

@@ -1,179 +1,119 @@
-# 🎮 yLauncher (Beta 0.1)
+# yLauncher
 
 <div align="center">
 
-### **Launcher de Jogos Moderno, Ultra-Leve e Otimizado para Windows 11 e Handhelds**
-*Projetado especialmente para Lenovo Legion Go, ASUS ROG Ally, Steam Deck (Windows) e PCs Gamer.*
+**Uma biblioteca de jogos em tela cheia para Windows, feita para mouse, teclado e controle.**
 
-[![Platform](https://img.shields.io/badge/Plataforma-Windows%2011%20%7C%2010%20(x64)-blue?style=for-the-badge&logo=windows)](https://microsoft.com/windows)
-[![Version](https://img.shields.io/badge/Versão-Beta%200.1-green?style=for-the-badge)](https://github.com)
-[![Controller](https://img.shields.io/badge/Controle-XInput%20%2F%20Legion%20Go-orange?style=for-the-badge&logo=xbox)](https://xbox.com)
-[![Performance](https://img.shields.io/badge/Desempenho-60%2B%20FPS%20APU-purple?style=for-the-badge)](https://amd.com)
-[![Status](https://img.shields.io/badge/Instalador%20v2.0-PS5%20Edition-0070d1?style=for-the-badge&logo=playstation)](Instalador_yLauncher_v2.exe)
-[![Status](https://img.shields.io/badge/Instalador%20Beta%200.1-All--in--One-brightgreen?style=for-the-badge)](Instalador_yLauncher.exe)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Apoiar%20Projeto-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/kromossomoc)
+[![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white)](https://www.microsoft.com/windows)
+[![Versão](https://img.shields.io/badge/versão-2.1-6C5CE7?style=flat-square)](CHANGELOG.md)
+[![Controle](https://img.shields.io/badge/controle-XInput-107C10?style=flat-square&logo=xbox&logoColor=white)](#controles)
+[![Status](https://img.shields.io/badge/status-beta-F59E0B?style=flat-square)](#status-do-projeto)
 
-<br/>
+[**Baixar instalador 2.1**](Instalador_yLauncher_v2.1.exe) · [**Baixar versão portátil**](yLauncher_v2.1_Portable.zip) · [Ver mudanças](CHANGELOG.md)
 
-![Demonstração do yLauncher](ylauncher_preview.gif)
+![Demonstração do yLauncher](https://raw.githubusercontent.com/kromossomom-debug/yLauncher/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/ylauncher_preview.gif)
 
 </div>
 
----
+## O que há de novo na versão 2.1
 
-## 📌 Sumário
+- Ponte local protegida por token temporário; páginas externas não conseguem mais acionar executáveis pelo launcher.
+- Protocolo `ylauncher://` limitado a ações seguras e sem execução arbitrária de caminhos.
+- Proxy do SteamGridDB restrito ao domínio oficial e sem chave de API incorporada.
+- Pacote publicado com biblioteca vazia, sem jogos ou dados pertencentes à máquina de desenvolvimento.
+- Conteúdo importado e textos personalizados são normalizados antes de aparecer na interface.
+- Inicialização mais rápida: a varredura de jogos acontece depois que a interface abre.
+- Instalador renovado, atualização que preserva a biblioteca e desinstalador que mantém dados pessoais por padrão.
+- Build reproduzível do launcher, instalador, desinstalador e pacote portátil.
 
-- [Visão Geral](#-visão-geral)
-- [Galeria de Telas](#-galeria-de-telas)
-- [Principais Recursos](#-principais-recursos)
-- [Como Instalar](#-como-instalar)
-- [Mapeamento de Controles](#-mapeamento-de-controles)
-- [Compatibilidade](#-compatibilidade)
-- [Estrutura do Repositório](#-estrutura-do-repositório)
-- [Personalização e Recursos Avançados](#-personalização-e-recursos-avançados)
-- [Apoie o Projeto](#-apoie-o-projeto)
+## Principais recursos
 
----
+- Navegação por controle XInput, teclado ou mouse.
+- Detecção de bibliotecas Steam, Epic Games, Battle.net e EA App.
+- Inclusão manual de jogos, aplicativos e emuladores.
+- Busca, filtros, favoritos, avaliações e tempo de jogo.
+- Capas e banners personalizados, com integração opcional ao SteamGridDB.
+- Interface adaptável para desktops e portáteis como Lenovo Legion Go, ASUS ROG Ally, AYANEO, GPD e OneXPlayer.
 
-## 🌟 Visão Geral
+## Instalação
 
-O **yLauncher** é um inicializador de jogos (game launcher) de alta performance criado para entregar uma experiência cinematográfica estilo console em PCs com Windows 11 e, em especial, consoles portáteis como o **Lenovo Legion Go**, **ASUS ROG Ally**, **Steam Deck** (com Windows) e dispositivos **AYANEO/GPD**.
+1. Baixe o [instalador 2.1](Instalador_yLauncher_v2.1.exe).
+2. Compare o SHA-256 com o valor da seção [Integridade](#integridade).
+3. Abra o instalador, escolha a pasta e as integrações desejadas.
+4. Clique em **Instalar**.
 
-Construído com tecnologia nativa leve e aceleração de hardware Direct3D, ele garante **inicialização instantânea**, baixo consumo de memória RAM (< 120 MB) e autonomia máxima de bateria para jogatina em dispositivos portáteis.
+Também é possível extrair a [versão portátil](yLauncher_v2.1_Portable.zip) e abrir `yLauncher.exe` diretamente.
 
----
+> Os executáveis ainda não possuem assinatura digital. O Windows pode mostrar um aviso do SmartScreen; confirme a origem e o hash antes de executá-los.
 
-## 📸 Galeria de Telas
+### Requisitos
 
-| 🖥️ Interface do Launcher (Modo Console) | 🎮 Em Ação no Console Portátil (Legion Go) |
-| :---: | :---: |
-| [![Interface do yLauncher](screenshot_ui.jpg)](screenshot_ui.jpg) | [![yLauncher no Legion Go](legion_go_presentation.jpg)](legion_go_presentation.jpg) |
+- Windows 10 versão 1809 ou mais recente, ou Windows 11.
+- Microsoft Edge instalado, usado para exibir a interface em modo aplicativo.
+- Controle XInput opcional.
+- Internet apenas para capas e outros recursos online.
 
----
+## Primeiros passos
 
-## ✨ Principais Recursos
+Ao abrir o yLauncher, use **Verificar jogos instalados** para localizar bibliotecas no computador. Jogos que não forem detectados podem ser incluídos em **Adicionar jogo**.
 
-- 🎮 **Navegação 100% Nativa por Controle (XInput):**
-  - Navegação bidimensional matricial 2D inteligente (calculada diretamente com base na resolução e DPI da tela, sem pulos ou desvios diagonais).
-  - Algoritmo de zona morta com histerese (*Schmitt Trigger*) para eliminar repiques de comandos e desvios de *stick drift*.
-  - Indicador de controle conectado no cabeçalho.
-- ⚡ **Otimizado para Handhelds e APUs:**
-  - Flags de aceleração Direct3D 11/12 via hardware para máxima fluidez a 60+ FPS no Legion Go e ROG Ally.
-- 🔍 **Escaner Automático de Jogos:**
-  - Detecta automaticamente títulos instalados da **Steam** (inspeciona manifests `.acf` e bibliotecas `libraryfolders.vdf`), **Epic Games**, **Battle.net**, **EA Play** e jogos locais.
-  - Exibe jogos instalados com selo de verificação e tamanho em disco em tempo real.
-- 🔤 **Organização Alfabética Natural (A - Z):**
-  - Ordenação natural e inteligente por padrão (`Doom`, `Doom 2`, `Doom 64`), considerando caracteres acentuados e números.
-  - Filtros rápidos por abas: *Jogos Instalados*, *Biblioteca*, *Steam*, *Favoritos* e *Locais*.
-- 🎨 **Custom Art Studio (SteamGridDB Integrado):**
-  - Troca de capas e pôsteres verticais com 1 botão (`START` no controle ou clique com o botão direito do mouse no jogo).
-  - Busca automática de artes em alta definição via SteamGridDB.
-- 🖼️ **Destaque Superior Dinâmico (Hero Spotlight):**
-  - Backdrop cinematográfico do jogo focado com sinopse, gênero e estatísticas de tamanho.
-- 📦 **Instalador Oficial All-in-One Standalone:**
-  - Um único arquivo executável portátil que embute tudo o que o launcher precisa.
-  - Cria atalhos na Área de Trabalho e Menu Iniciar.
-  - Integração nativa ao painel "Aplicativos Instalados" do Windows com desinstalador dedicado.
+Para usar artes da comunidade, crie sua própria chave no SteamGridDB e salve-a nas configurações do launcher. Nenhuma chave é distribuída dentro do aplicativo.
 
----
+Ao desinstalar, capas, preferências e cache são preservados por padrão. Marque a opção de exclusão de dados somente se quiser uma limpeza completa.
 
-## 🚀 Como Instalar
+## Controles
 
-1. Escolha e baixe a versão desejada aqui no repositório:
-   - 🎮 **[`Instalador_yLauncher_v2.exe`](Instalador_yLauncher_v2.exe)** — **yLauncher v2.0 (Edição Console PS5 Fullscreen)**: Interface minimalista tela cheia estilo PlayStation 5, com arte de fundo dinâmica e carrossel inferior.
-   - 🖥️ **[`Instalador_yLauncher.exe`](Instalador_yLauncher.exe)** — **yLauncher Beta 0.1 (Edição Clássica)**: Interface com barra lateral e grade completa de biblioteca.
-2. Dê um duplo clique no arquivo baixado:
-   - O instalador é 100% autônomo (não necessita de arquivos extras).
-   - Escolha o diretório de destino (padrão recomendado: `%LOCALAPPDATA%\yLauncher_v2` ou `%LOCALAPPDATA%\yLauncher`).
-   - Marque se deseja criar atalho na Área de Trabalho, Menu Iniciar e iniciar com o Windows.
-   - Clique em **Instalar Agora**.
-3. Pronto! O **yLauncher** será instalado e aberto automaticamente.
+| Comando | Ação |
+| --- | --- |
+| D-pad ou analógico esquerdo | Navegar pela biblioteca |
+| **A** ou **Enter** | Abrir o jogo selecionado |
+| **B** ou **Esc** | Voltar |
+| **Y** | Alternar favorito |
+| **LB / RB** ou **Q / E** | Alternar categorias |
+| **Start / X** | Personalizar a arte |
+| **View / Select** | Abrir configurações |
 
-> **💡 Dica de desinstalação:** O yLauncher se integra às Configurações do Windows (*Configurações > Aplicativos > Aplicativos Instalados*), podendo ser removido a qualquer momento de forma 100% limpa através do botão Desinstalar do próprio Windows.
+## Integridade
 
----
+Os hashes completos estão em [checksums.sha256](checksums.sha256).
 
-## 🕹️ Mapeamento de Controles
+| Arquivo | SHA-256 |
+| --- | --- |
+| `Instalador_yLauncher_v2.1.exe` | `A27C8DB909D3C2D16C97F1CE17BC5E1538D07F7C68E936013BCC9F704B128806` |
+| `yLauncher_v2.1_Portable.zip` | `9ED9BB1350D12A74F17438E3469C112A55A6D5E4570C7686D0C92DB95E331F63` |
 
-O yLauncher foi projetado para ser operado 100% pelo controle, sem necessidade de mouse ou teclado.
+Verificação no PowerShell:
 
-### 🎮 Controle (Padrão Xbox / Legion Go / XInput)
-
-| Botão | Ação no yLauncher |
-| :--- | :--- |
-| **D-Pad / Analógico Esquerdo** | Navegação nos jogos (Esquerda, Direita, Cima, Baixo) |
-| **A** (Botão 0) | **Jogar** / Iniciar jogo selecionado |
-| **B** (Botão 1) | **Voltar** / Limpar busca / Alternar para Todos |
-| **START** ou **X** (Botões 9 / 2) | **Personalizar Capa** (Abre o Custom Art Studio) |
-| **Y** (Botão 3) | **Favoritar** jogo focado (Adiciona / Remove dos Favoritos) |
-| **LB / RB** (Botões 4 / 5) | **Alternar Categorias** / Abas da biblioteca |
-| **Select / View** (Botão 8) | **Central de Configurações** (Temas, Sons e Opções) |
-
-### ⌨️ Teclado (Atalhos Auxiliares)
-
-| Tecla | Ação |
-| :--- | :--- |
-| **Setas Direcionais** | Navegação nos jogos |
-| **Enter** | Iniciar jogo focado |
-| **Q / E** | Alternar abas da biblioteca (equivalente a LB / RB) |
-| **/** (Barra) | Focar instantaneamente no campo de busca |
-| **Esc** | Fechar modal / Fechar visualizador de capas / Sair |
-
----
-
-## 💻 Compatibilidade
-
-- **Sistemas Operacionais:** Windows 11 (64-bit) e Windows 10 (64-bit versão 1809 ou superior).
-- **Consoles Portáteis Testados:**
-  - Lenovo Legion Go (modo nativo 144Hz / 8.8" WQXGA)
-  - ASUS ROG Ally / ROG Ally X (Z1 / Z1 Extreme)
-  - Steam Deck com Windows 10/11
-  - GPD Win / AYANEO / OneXPlayer
-- **Plataformas de Jogos Suportadas:** Steam, Epic Games Launcher, EA App (EA Play), Battle.net, emuladores e executáveis avulsos `.exe`.
-
----
-
-## 📁 Estrutura do Repositório
-
-```plaintext
-yLauncher/
-├── Instalador_yLauncher_v2.exe  # Instalador v2.0 (Interface Console PS5 Tela Cheia)
-├── Instalador_yLauncher.exe     # Instalador Beta 0.1 (Interface Clássica com Grade)
-├── ylauncher_preview.gif        # Demonstração animada do launcher em ação
-├── screenshot_ui.jpg            # Captura de tela em alta definição da interface
-├── legion_go_presentation.jpg   # Apresentação do launcher no Lenovo Legion Go
-└── README.md                    # Documentação e guia completo do projeto
+```powershell
+Get-FileHash .\Instalador_yLauncher_v2.1.exe -Algorithm SHA256
 ```
 
+## Compilar a partir do código-fonte
+
+O código recuperado e organizado está em `src/`. Com o Visual Studio 2022 Build Tools e o compilador C# instalados, execute:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
+```
+
+O script recompila os três executáveis, confere versões e recursos incorporados e grava a distribuição em `dist/`.
+
+```text
+src/
+├── runtime/       # launcher e ponte nativa local
+├── installer/     # interface HTML e instalador
+└── uninstaller/   # remoção segura do aplicativo
+```
+
+## Versões anteriores
+
+- [yLauncher 2.0](https://github.com/kromossomom-debug/yLauncher/raw/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/Instalador_yLauncher_v2.exe)
+- [yLauncher 0.1 clássica](https://github.com/kromossomom-debug/yLauncher/raw/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/Instalador_yLauncher.exe)
+
+## Status do projeto
+
+O yLauncher está em **beta**. Encontrou um problema? [Abra uma issue](https://github.com/kromossomom-debug/yLauncher/issues) com a versão do Windows e os passos para reproduzir.
+
 ---
 
-## 🎨 Personalização e Recursos Avançados
-
-- **Adicionar Jogos Manuais:**
-  - Clique no botão `+ Adicionar Jogo` na barra lateral ou pressione a opção de jogo local para apontar para qualquer executável `.exe` no seu computador.
-- **Tamanho dos Cards:**
-  - Alterne entre os modos **Normal** e **Capas Grandes (HD)** usando o botão de tamanho na barra superior.
-- **Resolução e Escala no Legion Go / ROG Ally:**
-  - O yLauncher é 100% responsivo e possui suporte nativo a Per-Monitor DPI Aware v2. Quer você use resolução 1280x800, 1920x1080 ou 2560x1600 com qualquer fator de escala (100%, 125%, 150%, 200%), a grade se ajustará perfeitamente à tela sem distorções.
-
----
-
-## ☕ Apoie o Projeto
-
-Se o **yLauncher** ajuda na sua jogatina diária no PC ou portátil, considere apoiar o desenvolvimento contínuo do projeto!
-
-- ☕ **Buy Me a Coffee:** [**https://buymeacoffee.com/kromossomoc**](https://buymeacoffee.com/kromossomoc)
-- 💠 **Pix Direto no App:** Clique no botão **`💠 Doar Pix`** no topo do launcher para gerar o QR Code ou copiar a chave instantaneamente (`94af8068-d112-4c69-bcfa-8789b233246e`).
-
-<div align="center">
-  <br/>
-  <a href="https://buymeacoffee.com/kromossomoc" target="_blank">
-    <img src="https://img.shields.io/badge/☕%20Buy%20Me%20a%20Coffee-kromossomoc-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" height="42" />
-  </a>
-</div>
-
----
-
-<div align="center">
-  <sub>Criado com foco em desempenho, fluidez e liberdade para gamers de PC e consoles portáteis.</sub>
-</div>
+<div align="center"><sub>Feito para jogar mais e configurar menos.</sub></div>
