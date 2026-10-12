@@ -1,13 +1,13 @@
-# Ferramentas e arquivos usados apenas durante a recuperação/build local
+﻿# Ferramentas e arquivos usados apenas durante a recupera├º├úo/build local
 .tools/
 ylauncher-recovered/
 build/
 dist/*_Portable/
 
-# Saídas intermediárias do .NET
+# Sa├¡das intermedi├írias do .NET
 **/bin/
 **/obj/
 
-# Binários antigos recuperados; o build usa os executáveis recém-compilados
+# Bin├írios antigos recuperados; o build usa os execut├íveis rec├®m-compilados
 src/installer/yLauncher.exe
 src/installer/Desinstalar_yLauncher.exe

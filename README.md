@@ -1,118 +1,118 @@
-# yLauncher
+﻿# yLauncher
 
 <div align="center">
 
 **Uma biblioteca de jogos em tela cheia para Windows, feita para mouse, teclado e controle.**
 
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white)](https://www.microsoft.com/windows)
-[![Versão](https://img.shields.io/badge/versão-2.1-6C5CE7?style=flat-square)](CHANGELOG.md)
+[![Vers├úo](https://img.shields.io/badge/vers├úo-2.1-6C5CE7?style=flat-square)](CHANGELOG.md)
 [![Controle](https://img.shields.io/badge/controle-XInput-107C10?style=flat-square&logo=xbox&logoColor=white)](#controles)
 [![Status](https://img.shields.io/badge/status-beta-F59E0B?style=flat-square)](#status-do-projeto)
 
-[**Baixar instalador 2.1**](Instalador_yLauncher_v2.1.exe) · [**Baixar versão portátil**](yLauncher_v2.1_Portable.zip) · [Ver mudanças](CHANGELOG.md)
+[**Baixar instalador 2.1**](Instalador_yLauncher_v2.1.exe) ┬À [**Baixar vers├úo port├ítil**](yLauncher_v2.1_Portable.zip) ┬À [Ver mudan├ºas](CHANGELOG.md)
 
-![Demonstração do yLauncher](https://raw.githubusercontent.com/kromossomom-debug/yLauncher/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/ylauncher_preview.gif)
+![Demonstra├º├úo do yLauncher](https://raw.githubusercontent.com/kromossomom-debug/yLauncher/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/ylauncher_preview.gif)
 
 </div>
 
-## O que há de novo na versão 2.1
+## O que h├í de novo na vers├úo 2.1
 
-- Ponte local protegida por token temporário; páginas externas não conseguem mais acionar executáveis pelo launcher.
-- Protocolo `ylauncher://` limitado a ações seguras e sem execução arbitrária de caminhos.
-- Proxy do SteamGridDB restrito ao domínio oficial e sem chave de API incorporada.
-- Pacote publicado com biblioteca vazia, sem jogos ou dados pertencentes à máquina de desenvolvimento.
-- Conteúdo importado e textos personalizados são normalizados antes de aparecer na interface.
-- Inicialização mais rápida: a varredura de jogos acontece depois que a interface abre.
-- Instalador renovado, atualização que preserva a biblioteca e desinstalador que mantém dados pessoais por padrão.
-- Build reproduzível do launcher, instalador, desinstalador e pacote portátil.
+- Ponte local protegida por token tempor├írio; p├íginas externas n├úo conseguem mais acionar execut├íveis pelo launcher.
+- Protocolo `ylauncher://` limitado a a├º├Áes seguras e sem execu├º├úo arbitr├íria de caminhos.
+- Proxy do SteamGridDB restrito ao dom├¡nio oficial e sem chave de API incorporada.
+- Pacote publicado com biblioteca vazia, sem jogos ou dados pertencentes ├á m├íquina de desenvolvimento.
+- Conte├║do importado e textos personalizados s├úo normalizados antes de aparecer na interface.
+- Inicializa├º├úo mais r├ípida: a varredura de jogos acontece depois que a interface abre.
+- Instalador renovado, atualiza├º├úo que preserva a biblioteca e desinstalador que mant├®m dados pessoais por padr├úo.
+- Build reproduz├¡vel do launcher, instalador, desinstalador e pacote port├ítil.
 
 ## Principais recursos
 
-- Navegação por controle XInput, teclado ou mouse.
-- Detecção de bibliotecas Steam, Epic Games, Battle.net e EA App.
-- Inclusão manual de jogos, aplicativos e emuladores.
-- Busca, filtros, favoritos, avaliações e tempo de jogo.
-- Capas e banners personalizados, com integração opcional ao SteamGridDB.
-- Interface adaptável para desktops e portáteis como Lenovo Legion Go, ASUS ROG Ally, AYANEO, GPD e OneXPlayer.
+- Navega├º├úo por controle XInput, teclado ou mouse.
+- Detec├º├úo de bibliotecas Steam, Epic Games, Battle.net e EA App.
+- Inclus├úo manual de jogos, aplicativos e emuladores.
+- Busca, filtros, favoritos, avalia├º├Áes e tempo de jogo.
+- Capas e banners personalizados, com integra├º├úo opcional ao SteamGridDB.
+- Interface adapt├ível para desktops e port├íteis como Lenovo Legion Go, ASUS ROG Ally, AYANEO, GPD e OneXPlayer.
 
-## Instalação
+## Instala├º├úo
 
 1. Baixe o [instalador 2.1](Instalador_yLauncher_v2.1.exe).
-2. Compare o SHA-256 com o valor da seção [Integridade](#integridade).
-3. Abra o instalador, escolha a pasta e as integrações desejadas.
+2. Compare o SHA-256 com o valor da se├º├úo [Integridade](#integridade).
+3. Abra o instalador, escolha a pasta e as integra├º├Áes desejadas.
 4. Clique em **Instalar**.
 
-Também é possível extrair a [versão portátil](yLauncher_v2.1_Portable.zip) e abrir `yLauncher.exe` diretamente.
+Tamb├®m ├® poss├¡vel extrair a [vers├úo port├ítil](yLauncher_v2.1_Portable.zip) e abrir `yLauncher.exe` diretamente.
 
-> Os executáveis ainda não possuem assinatura digital. O Windows pode mostrar um aviso do SmartScreen; confirme a origem e o hash antes de executá-los.
+> Os execut├íveis ainda n├úo possuem assinatura digital. O Windows pode mostrar um aviso do SmartScreen; confirme a origem e o hash antes de execut├í-los.
 
 ### Requisitos
 
-- Windows 10 versão 1809 ou mais recente, ou Windows 11.
+- Windows 10 vers├úo 1809 ou mais recente, ou Windows 11.
 - Microsoft Edge instalado, usado para exibir a interface em modo aplicativo.
 - Controle XInput opcional.
 - Internet apenas para capas e outros recursos online.
 
 ## Primeiros passos
 
-Ao abrir o yLauncher, use **Verificar jogos instalados** para localizar bibliotecas no computador. Jogos que não forem detectados podem ser incluídos em **Adicionar jogo**.
+Ao abrir o yLauncher, use **Verificar jogos instalados** para localizar bibliotecas no computador. Jogos que n├úo forem detectados podem ser inclu├¡dos em **Adicionar jogo**.
 
-Para usar artes da comunidade, crie sua própria chave no SteamGridDB e salve-a nas configurações do launcher. Nenhuma chave é distribuída dentro do aplicativo.
+Para usar artes da comunidade, crie sua pr├│pria chave no SteamGridDB e salve-a nas configura├º├Áes do launcher. Nenhuma chave ├® distribu├¡da dentro do aplicativo.
 
-Ao desinstalar, capas, preferências e cache são preservados por padrão. Marque a opção de exclusão de dados somente se quiser uma limpeza completa.
+Ao desinstalar, capas, prefer├¬ncias e cache s├úo preservados por padr├úo. Marque a op├º├úo de exclus├úo de dados somente se quiser uma limpeza completa.
 
 ## Controles
 
-| Comando | Ação |
+| Comando | A├º├úo |
 | --- | --- |
-| D-pad ou analógico esquerdo | Navegar pela biblioteca |
+| D-pad ou anal├│gico esquerdo | Navegar pela biblioteca |
 | **A** ou **Enter** | Abrir o jogo selecionado |
 | **B** ou **Esc** | Voltar |
 | **Y** | Alternar favorito |
 | **LB / RB** ou **Q / E** | Alternar categorias |
 | **Start / X** | Personalizar a arte |
-| **View / Select** | Abrir configurações |
+| **View / Select** | Abrir configura├º├Áes |
 
 ## Integridade
 
-Os hashes completos estão em [checksums.sha256](checksums.sha256).
+Os hashes completos est├úo em [checksums.sha256](checksums.sha256).
 
 | Arquivo | SHA-256 |
 | --- | --- |
-| `Instalador_yLauncher_v2.1.exe` | `AC40705B1D93B3826782D9BBE4C6BBB910E5E4D77C6CB6AFF8D0F026D259B789` |
-| `yLauncher_v2.1_Portable.zip` | `35A843E3033822C8D514C4B84E122A82A7B6D49688D94B65318F651184814066` |
+| `Instalador_yLauncher_v2.1.exe` | `DAE2442795B436BF285EFDCB9EC942E02B0C1B22ADB0E682ABD8E9AC08420A9E` |
+| `yLauncher_v2.1_Portable.zip` | `8B15395B0054E06F1005920D79BEFE748D1DE8A74E71A0614D74D55BB27D5F90` |
 
-Verificação no PowerShell:
+Verifica├º├úo no PowerShell:
 
 ```powershell
 Get-FileHash .\Instalador_yLauncher_v2.1.exe -Algorithm SHA256
 ```
 
-## Compilar a partir do código-fonte
+## Compilar a partir do c├│digo-fonte
 
-O código recuperado e organizado está em `src/`. Com o Visual Studio 2022 Build Tools e o compilador C# instalados, execute:
+O c├│digo recuperado e organizado est├í em `src/`. Com o Visual Studio 2022 Build Tools e o compilador C# instalados, execute:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-O script recompila os três executáveis, confere versões e recursos incorporados e grava a distribuição em `dist/`.
+O script recompila os tr├¬s execut├íveis, confere vers├Áes e recursos incorporados e grava a distribui├º├úo em `dist/`.
 
 ```text
 src/
-├── runtime/       # launcher e ponte nativa local
-├── installer/     # interface HTML e instalador
-└── uninstaller/   # remoção segura do aplicativo
+Ôö£ÔöÇÔöÇ runtime/       # launcher e ponte nativa local
+Ôö£ÔöÇÔöÇ installer/     # interface HTML e instalador
+ÔööÔöÇÔöÇ uninstaller/   # remo├º├úo segura do aplicativo
 ```
 
-## Versões anteriores
+## Vers├Áes anteriores
 
 - [yLauncher 2.0](https://github.com/kromossomom-debug/yLauncher/raw/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/Instalador_yLauncher_v2.exe)
-- [yLauncher 0.1 clássica](https://github.com/kromossomom-debug/yLauncher/raw/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/Instalador_yLauncher.exe)
+- [yLauncher 0.1 cl├íssica](https://github.com/kromossomom-debug/yLauncher/raw/16d24e753c9e5d3f5aff624c07ec26fcc47eeb93/Instalador_yLauncher.exe)
 
 ## Status do projeto
 
-O yLauncher está em **beta**. Encontrou um problema? [Abra uma issue](https://github.com/kromossomom-debug/yLauncher/issues) com a versão do Windows e os passos para reproduzir.
+O yLauncher est├í em **beta**. Encontrou um problema? [Abra uma issue](https://github.com/kromossomom-debug/yLauncher/issues) com a vers├úo do Windows e os passos para reproduzir.
 
 ---
 
