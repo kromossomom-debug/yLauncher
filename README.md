@@ -1,4 +1,4 @@
-# 🎮 yLauncher
+# 🎮 yLauncher (Beta 0.1)
 
 <div align="center">
 
@@ -6,10 +6,12 @@
 *Projetado especialmente para Lenovo Legion Go, ASUS ROG Ally, Steam Deck (Windows) e PCs Gamer.*
 
 [![Platform](https://img.shields.io/badge/Plataforma-Windows%2011%20%7C%2010%20(x64)-blue?style=for-the-badge&logo=windows)](https://microsoft.com/windows)
-[![Version](https://img.shields.io/badge/Versão-3.1.0-green?style=for-the-badge)](https://github.com)
+[![Version](https://img.shields.io/badge/Versão-Beta%200.1-green?style=for-the-badge)](https://github.com)
 [![Controller](https://img.shields.io/badge/Controle-XInput%20%2F%20Legion%20Go-orange?style=for-the-badge&logo=xbox)](https://xbox.com)
 [![Performance](https://img.shields.io/badge/Desempenho-60%2B%20FPS%20APU-purple?style=for-the-badge)](https://amd.com)
-[![Status](https://img.shields.io/badge/Instalador-All--in--One%20Standalone-brightgreen?style=for-the-badge)](Instalador_yLauncher.exe)
+[![Status](https://img.shields.io/badge/Instalador%20v2.0-PS5%20Edition-0070d1?style=for-the-badge&logo=playstation)](Instalador_yLauncher_v2.exe)
+[![Status](https://img.shields.io/badge/Instalador%20Beta%200.1-All--in--One-brightgreen?style=for-the-badge)](Instalador_yLauncher.exe)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Apoiar%20Projeto-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/kromossomoc)
 
 <br/>
 
@@ -29,6 +31,7 @@
 - [Compatibilidade](#-compatibilidade)
 - [Estrutura do Repositório](#-estrutura-do-repositório)
 - [Personalização e Recursos Avançados](#-personalização-e-recursos-avançados)
+- [Apoie o Projeto](#-apoie-o-projeto)
 
 ---
 
@@ -61,7 +64,7 @@ Construído com tecnologia nativa leve e aceleração de hardware Direct3D, ele 
   - Exibe jogos instalados com selo de verificação e tamanho em disco em tempo real.
 - 🔤 **Organização Alfabética Natural (A - Z):**
   - Ordenação natural e inteligente por padrão (`Doom`, `Doom 2`, `Doom 64`), considerando caracteres acentuados e números.
-  - Filtros rápidos por abas: *Jogos Instalados*, *Steam*, *Battle.net*, *EA Play*, *Locais*, *Favoritos* e *Todos os Jogos*.
+  - Filtros rápidos por abas: *Jogos Instalados*, *Biblioteca*, *Steam*, *Favoritos* e *Locais*.
 - 🎨 **Custom Art Studio (SteamGridDB Integrado):**
   - Troca de capas e pôsteres verticais com 1 botão (`START` no controle ou clique com o botão direito do mouse no jogo).
   - Busca automática de artes em alta definição via SteamGridDB.
@@ -76,10 +79,12 @@ Construído com tecnologia nativa leve e aceleração de hardware Direct3D, ele 
 
 ## 🚀 Como Instalar
 
-1. Baixe o executável **[`Instalador_yLauncher.exe`](Instalador_yLauncher.exe)** aqui no repositório.
+1. Escolha e baixe a versão desejada aqui no repositório:
+   - 🎮 **[`Instalador_yLauncher_v2.exe`](Instalador_yLauncher_v2.exe)** — **yLauncher v2.0 (Edição Console PS5 Fullscreen)**: Interface minimalista tela cheia estilo PlayStation 5, com arte de fundo dinâmica e carrossel inferior.
+   - 🖥️ **[`Instalador_yLauncher.exe`](Instalador_yLauncher.exe)** — **yLauncher Beta 0.1 (Edição Clássica)**: Interface com barra lateral e grade completa de biblioteca.
 2. Dê um duplo clique no arquivo baixado:
    - O instalador é 100% autônomo (não necessita de arquivos extras).
-   - Escolha o diretório de destino (padrão recomendado: `%LOCALAPPDATA%\yLauncher`).
+   - Escolha o diretório de destino (padrão recomendado: `%LOCALAPPDATA%\yLauncher_v2` ou `%LOCALAPPDATA%\yLauncher`).
    - Marque se deseja criar atalho na Área de Trabalho, Menu Iniciar e iniciar com o Windows.
    - Clique em **Instalar Agora**.
 3. Pronto! O **yLauncher** será instalado e aberto automaticamente.
@@ -96,7 +101,7 @@ O yLauncher foi projetado para ser operado 100% pelo controle, sem necessidade d
 
 | Botão | Ação no yLauncher |
 | :--- | :--- |
-| **D-Pad / Analógico Esquerdo** | Navegação na grade de jogos (Cima, Baixo, Esquerda, Direita) |
+| **D-Pad / Analógico Esquerdo** | Navegação nos jogos (Esquerda, Direita, Cima, Baixo) |
 | **A** (Botão 0) | **Jogar** / Iniciar jogo selecionado |
 | **B** (Botão 1) | **Voltar** / Limpar busca / Alternar para Todos |
 | **START** ou **X** (Botões 9 / 2) | **Personalizar Capa** (Abre o Custom Art Studio) |
@@ -108,7 +113,7 @@ O yLauncher foi projetado para ser operado 100% pelo controle, sem necessidade d
 
 | Tecla | Ação |
 | :--- | :--- |
-| **Setas Direcionais** | Navegação na grade (respeita colunas calculadas em 2D) |
+| **Setas Direcionais** | Navegação nos jogos |
 | **Enter** | Iniciar jogo focado |
 | **Q / E** | Alternar abas da biblioteca (equivalente a LB / RB) |
 | **/** (Barra) | Focar instantaneamente no campo de busca |
@@ -132,7 +137,8 @@ O yLauncher foi projetado para ser operado 100% pelo controle, sem necessidade d
 
 ```plaintext
 yLauncher/
-├── Instalador_yLauncher.exe     # Instalador oficial portátil e autônomo (All-in-One)
+├── Instalador_yLauncher_v2.exe  # Instalador v2.0 (Interface Console PS5 Tela Cheia)
+├── Instalador_yLauncher.exe     # Instalador Beta 0.1 (Interface Clássica com Grade)
 ├── ylauncher_preview.gif        # Demonstração animada do launcher em ação
 ├── screenshot_ui.jpg            # Captura de tela em alta definição da interface
 ├── legion_go_presentation.jpg   # Apresentação do launcher no Lenovo Legion Go
@@ -149,6 +155,22 @@ yLauncher/
   - Alterne entre os modos **Normal** e **Capas Grandes (HD)** usando o botão de tamanho na barra superior.
 - **Resolução e Escala no Legion Go / ROG Ally:**
   - O yLauncher é 100% responsivo e possui suporte nativo a Per-Monitor DPI Aware v2. Quer você use resolução 1280x800, 1920x1080 ou 2560x1600 com qualquer fator de escala (100%, 125%, 150%, 200%), a grade se ajustará perfeitamente à tela sem distorções.
+
+---
+
+## ☕ Apoie o Projeto
+
+Se o **yLauncher** ajuda na sua jogatina diária no PC ou portátil, considere apoiar o desenvolvimento contínuo do projeto!
+
+- ☕ **Buy Me a Coffee:** [**https://buymeacoffee.com/kromossomoc**](https://buymeacoffee.com/kromossomoc)
+- 💠 **Pix Direto no App:** Clique no botão **`💠 Doar Pix`** no topo do launcher para gerar o QR Code ou copiar a chave instantaneamente (`94af8068-d112-4c69-bcfa-8789b233246e`).
+
+<div align="center">
+  <br/>
+  <a href="https://buymeacoffee.com/kromossomoc" target="_blank">
+    <img src="https://img.shields.io/badge/☕%20Buy%20Me%20a%20Coffee-kromossomoc-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" height="42" />
+  </a>
+</div>
 
 ---
 
