@@ -1,4 +1,4 @@
-﻿# yLauncher
+# yLauncher
 
 <div align="center">
 
@@ -79,8 +79,8 @@ Os hashes completos est├úo em [checksums.sha256](checksums.sha256).
 
 | Arquivo | SHA-256 |
 | --- | --- |
-| `Instalador_yLauncher_v2.1.exe` | `DAE2442795B436BF285EFDCB9EC942E02B0C1B22ADB0E682ABD8E9AC08420A9E` |
-| `yLauncher_v2.1_Portable.zip` | `8B15395B0054E06F1005920D79BEFE748D1DE8A74E71A0614D74D55BB27D5F90` |
+| `Instalador_yLauncher_v2.1.exe` | `5B4EB55B691586E386A470F4F12BDFC9FEAD3525F18263706F3CD8730952F97C` |
+| `yLauncher_v2.1_Portable.zip` | `36FD44B956B956F6CC63B5829041CE384C86CB7A7EAEE321DE38B919364A0092` |
 
 Verifica├º├úo no PowerShell:
 

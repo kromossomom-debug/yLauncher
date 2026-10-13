@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>Instalador_yLauncher_v2.1</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>net40</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="index.html" />
+    <None Remove="yLauncher.ico" />
+    <None Remove="yLauncher.manifest" />
+    <None Remove="installed_games.json" />
+    <EmbeddedResource Include="..\..\build\release\yLauncher.exe" LogicalName="yLauncher.exe" />
+    <EmbeddedResource Include="index.html" LogicalName="index.html" />
+    <EmbeddedResource Include="yLauncher.ico" LogicalName="yLauncher.ico" />
+    <EmbeddedResource Include="yLauncher.manifest" LogicalName="yLauncher.manifest" />
+    <EmbeddedResource Include="..\..\build\release\Desinstalar_yLauncher.exe" LogicalName="Desinstalar_yLauncher.exe" />
+    <EmbeddedResource Include="installed_games.json" LogicalName="installed_games.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+</Project>

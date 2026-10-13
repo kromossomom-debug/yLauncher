@@ -1,6 +1,21 @@
-﻿# Hist├│rico de vers├Áes
+# Histórico de versões
 
-## 2.1.0 ÔÇö Seguran├ºa, privacidade e manuten├º├úo
+## 2.1.1 — Banners Widescreen do SteamGridDB e Navegação por Controle
+
+- Download e aplicação de backgrounds e banners widescreen do SteamGridDB (Heroes 1920x620 e grids horizontais).
+- Seletor rápido de arte entre Capa Vertical (600x900) e Background Widescreen.
+- Visualização e troca direta de capas e backgrounds a partir do menu de detalhes do jogo.
+- Suporte para restauração de background padrão do jogo.
+- Navegação otimizada por joystick:
+  - Foco inteligente imediato na galeria de artes ao abrir o estúdio.
+  - Navegação bidimensional precisa (2 colunas em banners, 4 colunas em capas).
+  - Toque em (A) na arte selecionada confirma a aplicação imediatamente.
+  - Botão (X) / START para aplicação instantânea da arte focada.
+  - Botão (Y) para zoom em tela cheia (Lightbox HD).
+  - Gatilhos (LT/RT) para alternar instantaneamente entre Capa e Background.
+  - Bumpers (LB/RB) para troca de páginas da galeria.
+
+## 2.1.0 — Segurança, privacidade e manutenção
 
 - Prote├º├úo da ponte HTTP local com token tempor├írio e valida├º├úo de origem.
 - Remo├º├úo da execu├º├úo arbitr├íria pelo protocolo personalizado.
