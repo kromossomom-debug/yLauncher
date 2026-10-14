@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,7 +13,11 @@ internal sealed class UninstallForm : Form
 
 	public UninstallForm()
 	{
-		Text = "Desinstalar yLauncher";
+		string sysLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+		bool isRu = sysLang == "ru";
+		bool isPt = sysLang == "pt";
+
+		Text = isRu ? "Удаление yLauncher" : isPt ? "Desinstalar yLauncher" : "Uninstall yLauncher";
 		ClientSize = new Size(560, 390);
 		StartPosition = FormStartPosition.CenterScreen;
 		FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -47,7 +51,7 @@ internal sealed class UninstallForm : Form
 		};
 		header.Controls.Add(new Label
 		{
-			Text = "Desinstalar yLauncher",
+			Text = isRu ? "Удаление yLauncher" : isPt ? "Desinstalar yLauncher" : "Uninstall yLauncher",
 			Font = new Font("Segoe UI", 15f, FontStyle.Bold),
 			ForeColor = Color.White,
 			Location = new Point(26, 18),
@@ -55,7 +59,9 @@ internal sealed class UninstallForm : Form
 		});
 		header.Controls.Add(new Label
 		{
-			Text = "Remova o aplicativo sem perder sua biblioteca pessoal.",
+			Text = isRu ? "Удалите приложение без потери личной библиотеки."
+				: isPt ? "Remova o aplicativo sem perder sua biblioteca pessoal."
+				: "Remove the application without losing your personal library.",
 			ForeColor = Color.FromArgb(148, 163, 184),
 			Location = new Point(28, 54),
 			AutoSize = true
@@ -64,7 +70,9 @@ internal sealed class UninstallForm : Form
 
 		Controls.Add(new Label
 		{
-			Text = "O aplicativo, os atalhos, a inicialização automática e os protocolos\nregistrados serão removidos deste computador.",
+			Text = isRu ? "Приложение, ярлыки, автозапуск и зарегистрированные протоколы\nбудут удалены с этого компьютера."
+				: isPt ? "O aplicativo, os atalhos, a inicialização automática e os protocolos\nregistrados serão removidos deste computador."
+				: "The application, shortcuts, startup items and registered\nprotocols will be removed from this computer.",
 			Location = new Point(28, 120),
 			Size = new Size(500, 52),
 			ForeColor = Color.FromArgb(226, 232, 240)
@@ -72,7 +80,9 @@ internal sealed class UninstallForm : Form
 
 		cleanDataCheckBox = new CheckBox
 		{
-			Text = "Excluir também capas, preferências e cache local",
+			Text = isRu ? "Удалить также обложки, настройки и локальный кэш"
+				: isPt ? "Excluir também capas, preferências e cache local"
+				: "Also delete covers, preferences and local cache",
 			Location = new Point(28, 184),
 			Size = new Size(500, 28),
 			ForeColor = Color.FromArgb(203, 213, 225),
@@ -82,7 +92,9 @@ internal sealed class UninstallForm : Form
 
 		Controls.Add(new Label
 		{
-			Text = "Deixe esta opção desmarcada para manter seus dados em uma futura reinstalação.",
+			Text = isRu ? "Оставьте этот флажок снятым, чтобы сохранить данные для будущей переустановки."
+				: isPt ? "Deixe esta opção desmarcada para manter seus dados em uma futura reinstalação."
+				: "Leave unchecked to preserve your library for a future reinstall.",
 			Location = new Point(48, 216),
 			Size = new Size(478, 38),
 			ForeColor = Color.FromArgb(148, 163, 184),
@@ -106,7 +118,7 @@ internal sealed class UninstallForm : Form
 		};
 		uninstallButton = new Button
 		{
-			Text = "Desinstalar",
+			Text = isRu ? "Удалить" : isPt ? "Desinstalar" : "Uninstall",
 			Size = new Size(132, 40),
 			Location = new Point(278, 15),
 			BackColor = Color.FromArgb(220, 38, 38),
@@ -120,7 +132,7 @@ internal sealed class UninstallForm : Form
 
 		cancelButton = new Button
 		{
-			Text = "Cancelar",
+			Text = isRu ? "Отмена" : isPt ? "Cancelar" : "Cancel",
 			Size = new Size(112, 40),
 			Location = new Point(422, 15),
 			BackColor = Color.FromArgb(30, 30, 44),
@@ -138,28 +150,36 @@ internal sealed class UninstallForm : Form
 
 	private async Task UninstallAsync()
 	{
+		string sysLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+		bool isRu = sysLang == "ru";
+		bool isPt = sysLang == "pt";
+
 		uninstallButton.Enabled = false;
 		cancelButton.Enabled = false;
 		cleanDataCheckBox.Enabled = false;
-		statusLabel.Text = "Removendo o yLauncher...";
+		statusLabel.Text = isRu ? "Удаление yLauncher..." : isPt ? "Removendo o yLauncher..." : "Removing yLauncher...";
 
 		try
 		{
 			bool deleteUserData = cleanDataCheckBox.Checked;
 			await Task.Run(() => UninstallProgram.PerformUninstall(deleteUserData));
+			string doneMsg = deleteUserData
+				? (isRu ? "yLauncher и локальные данные были удалены." : isPt ? "O yLauncher e seus dados locais foram removidos." : "yLauncher and its local data have been removed.")
+				: (isRu ? "yLauncher удален. Ваша личная библиотека сохранена." : isPt ? "O yLauncher foi removido. Sua biblioteca pessoal foi preservada." : "yLauncher has been removed. Your personal library has been preserved.");
+			string doneTitle = isRu ? "Удаление завершено" : isPt ? "Desinstalação concluída" : "Uninstallation complete";
+
 			MessageBox.Show(
-				deleteUserData
-					? "O yLauncher e seus dados locais foram removidos."
-					: "O yLauncher foi removido. Sua biblioteca pessoal foi preservada.",
-				"Desinstalação concluída",
+				doneMsg,
+				doneTitle,
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Information);
 			Close();
 		}
 		catch (Exception exception)
 		{
-			statusLabel.Text = "Não foi possível concluir a desinstalação.";
-			MessageBox.Show(exception.Message, "Falha na desinstalação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			statusLabel.Text = isRu ? "Не удалось завершить удаление." : isPt ? "Não foi possível concluir a desinstalação." : "Could not complete the uninstallation.";
+			string errTitle = isRu ? "Ошибка удаления" : isPt ? "Falha na desinstalação" : "Uninstallation failed";
+			MessageBox.Show(exception.Message, errTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			uninstallButton.Enabled = true;
 			cancelButton.Enabled = true;
 			cleanDataCheckBox.Enabled = true;

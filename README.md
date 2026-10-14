@@ -5,7 +5,7 @@
 **A modern, lightweight, console-style game launcher for Windows — built for mouse, keyboard, and gamepad.**
 
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white)](https://www.microsoft.com/windows)
-[![Version](https://img.shields.io/badge/version-2.1.1-6C5CE7?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.1.2-6C5CE7?style=flat-square)](CHANGELOG.md)
 [![Controller](https://img.shields.io/badge/controller-XInput-107C10?style=flat-square&logo=xbox&logoColor=white)](#controller-navigation)
 [![Status](https://img.shields.io/badge/status-beta-F59E0B?style=flat-square)](#project-status)
 
@@ -29,8 +29,16 @@ Optimized for desktop displays and handheld devices including **Lenovo Legion Go
 
 ---
 
-## What's New in v2.1.1
+## What's New in v2.1.2
 
+- **Full Multilingual Localization (English, Portuguese, Russian)**:
+  - Complete native and UI translations for English (EN), Portuguese (PT), and Russian (RU).
+  - Quick-switch language selector in the Settings Hub with immediate persistence.
+  - Native installer, uninstaller, and Windows system dialogs detect and adapt to your OS display language.
+- **Background Input Lock & Focus Guard**:
+  - Automatically suppresses gamepad and keyboard inputs when yLauncher loses focus or when another application/game is active.
+  - Automatically minimizes launcher window when games start and restores focus on exit.
+  - HUD paused status pill (`🔒 Paused`) indicating active background protection.
 - **SteamGridDB Background & Banner Downloader**: Search, download, and apply high-resolution widescreen backgrounds (1920x620 heroes and 16:9 banners) directly inside the app.
 - **Dual Art Studio Targets**: Seamlessly toggle between **Vertical Covers (600x900)** and **Widescreen Backgrounds**.
 - **Enhanced Gamepad Art Studio Controls**:

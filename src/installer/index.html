@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -1676,6 +1676,31 @@
       50% { transform: scale(1.35); opacity: 0.65; }
     }
 
+    /* Indicador visual de jogo/programa em foco (bloqueio do yLauncher) */
+    .ps5-blocked-pill {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.35) 0%, rgba(220, 38, 38, 0.22) 100%);
+      border: 1px solid rgba(248, 113, 113, 0.75);
+      color: #fca5a5;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 18px rgba(239, 68, 68, 0.35);
+      animation: ps5BlockedPulse 1.8s infinite ease-in-out;
+    }
+    @keyframes ps5BlockedPulse {
+      0%, 100% { opacity: 0.95; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(0.97); }
+    }
+
 
     .ps5-coffee-pill {
       height: 34px;
@@ -2195,7 +2220,7 @@
           <span class="tab-badge" id="badgeAll">13</span>
         </button>
         <button class="nav-tab" data-tab="recent" role="tab" aria-selected="false" onclick="setTab('recent')">
-          <span>Recentes</span>
+          <span id="i18n-navRecent">Recentes</span>
           <span class="tab-badge" id="badgeRecent">0</span>
         </button>
         <button class="nav-tab" data-tab="fav" role="tab" aria-selected="false" onclick="setTab('fav')">
@@ -2217,11 +2242,16 @@
           <span class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()">✕</span>
         </div>
 
+        <!-- Indicador de bloqueio quando outro jogo/programa está em foco -->
+        <div class="ps5-blocked-pill" id="hudGameBlockedIndicator" style="display:none;" title="Aplicativo em segundo plano — Controles pausados">
+          <span class="ps5-donate-dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span>
+          <span id="i18n-gameBlockedIndicator">🔒 Pausado</span>
+        </div>
 
         <!-- Botões de Doação em Destaque (Pix & Buy Me a Coffee) -->
         <button class="ps5-donate-pill" onclick="openDirectPixModal()" title="Apoiar o projeto via Pix (QR Code e Copia e Cola)">
           <span class="ps5-donate-dot"></span>
-          <span>💠 Apoiar Pix</span>
+          <span id="i18n-pixDonateBtn">💠 Apoiar Pix</span>
         </button>
         <button class="ps5-coffee-pill" onclick="openDonationLink()" title="Apoiar no Buy Me a Coffee (buymeacoffee.com/kromossomoc)">
           <span>☕ Buy Me a Coffee</span>
@@ -2270,7 +2300,7 @@
           <span>▶</span> <span id="i18n-playNow">Jogar</span>
         </button>
         <button class="btn-secondary-hero" onclick="openHeroDetails()" title="Opções, Avaliação, Notas e Abrir Pasta">
-          <span>⋯</span> <span>Opções</span>
+          <span>⋯</span> <span id="i18n-heroOptions">Opções</span>
         </button>
         <button class="btn-secondary-hero" onclick="openCustomizeArtForCurrentHero()" title="Alterar Capa (X)">
           <span>🖼️</span>
@@ -2300,7 +2330,7 @@
               ⊞ Grade Completa
             </button>
             <button class="ps5-pill-btn" onclick="runSystemGamesCheck()" title="Verificar Jogos Instalados no PC">
-              🔄 Escanear
+              <span id="i18n-btnScan">🔄 Escanear</span>
             </button>
             <select class="sort-select" id="sortSelect" onchange="setSort(this.value)" title="Ordenar Jogos">
               <option value="az" selected>A - Z</option>
@@ -2324,7 +2354,7 @@
         <span class="hud-key">A</span> <span id="i18n-hudPlay">Jogar</span>
       </div>
       <div class="hud-shortcut" onclick="openHeroDetails()">
-        <span class="hud-key">⋯</span> <span>Opções</span>
+        <span class="hud-key">⋯</span> <span id="i18n-hudOptions">Opções</span>
       </div>
       <div class="hud-shortcut" onclick="openCustomizeArtForCurrentHero()">
         <span class="hud-key">X</span> <span id="i18n-hudCover">Capa</span>
@@ -2484,8 +2514,8 @@
           <label class="form-label" id="i18n-addPathLabel">Caminho do Executável (.exe) ou URL *</label>
           <div class="input-row">
             <input type="text" class="form-input" id="newGamePath" placeholder="Ex: C:\Jogos\Game\jogo.exe ou roblox://..." />
-            <button class="opt-btn" type="button" onclick="triggerNativeExeBrowse()" style="white-space: nowrap; font-weight: 700; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #86efac;">📁 Procurar .exe</button>
-            <button class="opt-btn" type="button" onclick="testCurrentExePath()" style="white-space: nowrap; font-weight: 700; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;" title="Testar execução imediata">▶ Testar</button>
+            <button class="opt-btn" type="button" id="i18n-btnBrowseExe" onclick="triggerNativeExeBrowse()" style="white-space: nowrap; font-weight: 700; background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #86efac;">📁 Procurar .exe</button>
+            <button class="opt-btn" type="button" id="i18n-btnTestExe" onclick="testCurrentExePath()" style="white-space: nowrap; font-weight: 700; background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.4); color: #38bdf8;" title="Testar execução imediata">▶ Testar</button>
             <input type="file" id="filePickerLocalExe" accept=".exe,.bat,.lnk" style="display:none;" onchange="onLocalExeSelected(this)" />
           </div>
         </div>
@@ -2513,7 +2543,7 @@
           <label class="form-label" id="i18n-addCoverLabel">Capa (URL ou Foto do PC)</label>
           <div class="input-row">
             <input type="text" class="form-input" id="newGameCover" placeholder="Cole a URL ou envie foto do PC" />
-            <button class="opt-btn" type="button" onclick="document.getElementById('filePickerAddCover').click()" style="white-space: nowrap;">🖼️ Arquivo</button>
+            <button class="opt-btn" type="button" id="i18n-btnCoverFile" onclick="document.getElementById('filePickerAddCover').click()" style="white-space: nowrap;">🖼️ Arquivo</button>
             <input type="file" id="filePickerAddCover" accept="image/*" style="display:none;" onchange="onLocalCoverSelected(this, 'newGameCover')" />
           </div>
         </div>
@@ -2564,11 +2594,12 @@
           <div class="setting-card-header">
             <div>
               <div class="setting-title" id="i18n-langSetting">Idioma do Aplicativo</div>
-              <div class="setting-desc">Português ou English</div>
+              <div class="setting-desc" id="i18n-langDesc">Português, English ou Русский</div>
             </div>
             <div style="display: flex; gap: 6px;">
-              <button class="opt-btn active" id="btnLangPt" onclick="setLanguage('pt')">🇧🇷 PT-BR</button>
-              <button class="opt-btn" id="btnLangEn" onclick="setLanguage('en')">🇺🇸 EN-US</button>
+              <button class="opt-btn active" id="btnLangPt" onclick="setLanguage('pt')">🇧🇷 PT</button>
+              <button class="opt-btn" id="btnLangEn" onclick="setLanguage('en')">🇺🇸 EN</button>
+              <button class="opt-btn" id="btnLangRu" onclick="setLanguage('ru')">🇷🇺 RU</button>
             </div>
           </div>
         </div>
@@ -2578,7 +2609,7 @@
           <div class="setting-card-header">
             <div>
               <div class="setting-title" id="i18n-soundSetting">Efeitos Sonoros</div>
-              <div class="setting-desc">Áudio de navegação sintetizado</div>
+              <div class="setting-desc" id="i18n-soundDesc">Áudio de navegação sintetizado</div>
             </div>
             <button class="opt-btn active" id="settingsSoundToggle" onclick="toggleAudio()">
               🔊 <span id="i18n-soundState">Ligado</span>
@@ -2590,10 +2621,12 @@
         <div class="setting-card">
           <div class="setting-card-header">
             <div>
-              <div class="setting-title">Dock Lateral de Navegação</div>
-              <div class="setting-desc">Exibir ou recolher a barra esquerda</div>
+              <div class="setting-title" id="i18n-lockSetting">Bloqueio em Segundo Plano</div>
+              <div class="setting-desc" id="i18n-lockDesc">Travar controles e navegação quando outro jogo ou programa estiver na tela</div>
             </div>
-            <button class="opt-btn" onclick="toggleSidebar()">☰ Alternar Dock</button>
+            <button class="opt-btn active" id="settingsBgLockToggle" onclick="toggleBackgroundLock()">
+              🛡️ <span id="i18n-lockState">Ativado</span>
+            </button>
           </div>
         </div>
 
@@ -2601,16 +2634,28 @@
         <div class="setting-card">
           <div class="setting-card-header">
             <div>
-              <div class="setting-title">💾 Backup & Restauração de Dados</div>
-              <div class="setting-desc">Exporte ou importe jogos locais, capas, notas e estatísticas</div>
+              <div class="setting-title" id="i18n-dockSetting">Dock Lateral de Navegação</div>
+              <div class="setting-desc" id="i18n-dockDesc">Exibir ou recolher a barra esquerda</div>
+            </div>
+            <button class="opt-btn" id="i18n-dockBtn" onclick="toggleSidebar()">☰ Alternar Dock</button>
+          </div>
+        </div>
+
+
+        <div class="setting-card">
+          <div class="setting-card-header">
+            <div>
+              <div class="setting-title" id="i18n-backupSetting">💾 Backup & Restauração de Dados</div>
+              <div class="setting-desc" id="i18n-backupDesc">Exporte ou importe jogos locais, capas, notas e estatísticas</div>
             </div>
             <div style="display: flex; gap: 6px;">
-              <button class="opt-btn active" onclick="exportUserDataBackup()">⬇️ Exportar JSON</button>
-              <button class="opt-btn" onclick="document.getElementById('backupImportInput').click()">⬆️ Importar</button>
+              <button class="opt-btn active" id="i18n-exportJson" onclick="exportUserDataBackup()">⬇️ Exportar JSON</button>
+              <button class="opt-btn" id="i18n-importJson" onclick="document.getElementById('backupImportInput').click()">⬆️ Importar</button>
               <input type="file" id="backupImportInput" accept=".json" style="display:none;" onchange="importUserDataBackup(this)" />
             </div>
           </div>
         </div>
+      </div>
       </div>
 
 
@@ -3217,143 +3262,218 @@ function openDirectPixModal() {
 }
 
 
+function tr(pt, en, ru) {
+  if (currentLang === 'ru') return ru !== undefined ? ru : en;
+  if (currentLang === 'en') return en;
+  return pt;
+}
+
+
 function copyPixKey() {
-  copyToClipboard(PIX_KEY, currentLang === 'pt' ? 'Chave Pix copiada com sucesso! 💠' : 'Pix key copied! 💠');
+  copyToClipboard(PIX_KEY, tr('Chave Pix copiada com sucesso! 💠', 'Pix key copied! 💠', 'Ключ Pix успешно скопирован! 💠'));
 }
 
 
 function copyPixPayload() {
-  copyToClipboard(PIX_PAYLOAD, currentLang === 'pt' ? 'Pix Copia e Cola copiado! ⚡' : 'Pix payload copied! ⚡');
-}
-
-
-function copyToClipboard(text, successMsg) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast(successMsg); playSound('fav');
-    }).catch(() => fallbackCopy(text, successMsg));
-  } else {
-    fallbackCopy(text, successMsg);
-  }
-}
-
-
-function fallbackCopy(text, successMsg) {
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  showToast(successMsg);
-  playSound('fav');
-}
-
-
-async function openDonationLink() {
-  const url = "https://buymeacoffee.com/kromossomoc";
-  playSound('select');
-  const bridgePorts = [48123, 48124, 48125];
-  for (const port of bridgePorts) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 1500);
-      const res = await fetch(nativeBridgeUrl(port, `/launch?path=${encodeURIComponent(url)}`), { signal: controller.signal });
-      clearTimeout(timeoutId);
-      if (res.ok) return;
-    } catch (e) {}
-  }
-  window.open(url, '_blank');
+  copyToClipboard(PIX_PAYLOAD, tr('Pix Copia e Cola copiado! ⚡', 'Pix payload copied! ⚡', 'Код Pix скопирован! ⚡'));
 }
 
 
 // ══════════════════════════════════════════════════════
-//  IDIOMAS & I18N
+//  IDIOMAS & I18N (PORTUGUÊS, ENGLISH, РУССКИЙ)
 // ══════════════════════════════════════════════════════
 const I18N = {
   pt: {
-    navHome: "Todos",
+    navHome: "Biblioteca",
     navInstalled: "Instalados",
-    navCustom: "Locais",
+    navRecent: "Recentes",
     navFav: "Favoritos",
+    navCustom: "Locais",
     navSettings: "Configurações",
     exitBtn: "Sair",
     searchPlaceholder: "Buscar jogos...",
     playNow: "JOGAR",
-    allTitles: "Todos os Títulos",
+    heroOptions: "Opções",
+    allTitles: "Jogos Instalados",
     readyToPlay: "jogos",
     noGamesTitle: "Nenhum jogo encontrado",
     noGamesSub: "Tente outro termo ou mude de categoria",
     openLauncher: "Lançador",
     langSetting: "Idioma do Aplicativo",
+    langDesc: "Português, English ou Русский",
     soundSetting: "Efeitos Sonoros",
-    aspectLabel: "📐 Proporção dos Quadrados:",
+    soundDesc: "Áudio de navegação sintetizado",
+    lockSetting: "Bloqueio em Segundo Plano",
+    lockDesc: "Travar controles e navegação quando outro jogo ou programa estiver na tela",
+    dockSetting: "Dock Lateral de Navegação",
+    dockDesc: "Exibir ou recolher a barra esquerda",
+    dockBtn: "☰ Alternar Dock",
+    backupSetting: "💾 Backup & Restauração de Dados",
+    backupDesc: "Exporte ou importe jogos locais, capas, notas e estatísticas",
+    exportJson: "⬇️ Exportar JSON",
+    importJson: "⬆️ Importar",
+    aspectLabel: "📐 Proporção dos Cartões:",
     styleLabel: "✨ Estilo Visual dos Cartões:",
     accentLabel: "🎨 Cor de Destaque:",
     radiusLabel: "🔘 Arredondamento das Bordas:",
     addNameLabel: "Nome do Jogo *",
     addPathLabel: "Caminho do Executável (.exe) ou URL *",
+    btnBrowseExe: "📁 Procurar .exe",
+    btnTestExe: "▶ Testar",
     addPlatformLabel: "Categoria",
     addGenreLabel: "Gênero",
     addCoverLabel: "Capa (URL ou Foto do PC)",
+    btnCoverFile: "🖼️ Arquivo",
     saveGameBtn: "Salvar Jogo",
     artModalTitle: "Studio de Capas do Jogo",
     closeBtn: "Fechar",
     hudPlay: "Jogar",
-    hudCover: "Mudar Capa",
+    hudOptions: "Opções",
+    hudCover: "Capa",
     hudFav: "Favorito",
-    hudTabs: "Abas / Páginas",
+    hudTabs: "Abas",
     hudSidebar: "Ocultar Menu",
     hudSettings: "Painel",
     hudExit: "Voltar",
+    btnScan: "🔄 Escanear",
+    btnToggleGrid: "⊞ Grade Completa",
+    btnToggleRow: "  Fileira PS5",
     toastSaved: "Configurações salvas!",
     toastLangChanged: "Idioma alterado para Português 🇧🇷",
     toastFavAdd: "Adicionado aos favoritos ⭐",
     toastFavRemove: "Removido dos favoritos",
     toastController: "Conectado",
-    mPlay: "Jogar Agora"
+    mPlay: "Jogar Agora",
+    pixDonateBtn: "💠 Apoiar Pix",
+    gameBlockedIndicator: "🔒 Pausado"
   },
   en: {
-    navHome: "All",
+    navHome: "Library",
     navInstalled: "Installed",
-    navCustom: "Local",
+    navRecent: "Recent",
     navFav: "Favorites",
+    navCustom: "Local",
     navSettings: "Settings",
     exitBtn: "Exit",
     searchPlaceholder: "Search games...",
     playNow: "PLAY",
-    allTitles: "All Titles",
+    heroOptions: "Options",
+    allTitles: "Installed Games",
     readyToPlay: "games",
     noGamesTitle: "No games found",
     noGamesSub: "Try another term or switch category",
     openLauncher: "Launcher",
     langSetting: "Application Language",
+    langDesc: "Português, English or Русский",
     soundSetting: "Sound Effects",
+    soundDesc: "Synthesized navigation audio",
+    lockSetting: "Background Input Lock",
+    lockDesc: "Lock controls and navigation when another game or app is on screen",
+    dockSetting: "Navigation Sidebar Dock",
+    dockDesc: "Show or collapse left bar",
+    dockBtn: "☰ Toggle Dock",
+    backupSetting: "💾 Backup & Data Restore",
+    backupDesc: "Export or import local games, covers, notes and statistics",
+    exportJson: "⬇️ Export JSON",
+    importJson: "⬆️ Import",
     aspectLabel: "📐 Card Aspect Ratio:",
     styleLabel: "✨ Visual Card Style:",
     accentLabel: "🎨 Accent Color:",
     radiusLabel: "🔘 Border Radius:",
     addNameLabel: "Game Name *",
     addPathLabel: "Executable Path (.exe) or URL *",
+    btnBrowseExe: "📁 Browse .exe",
+    btnTestExe: "▶ Test",
     addPlatformLabel: "Category",
     addGenreLabel: "Genre",
-    addCoverLabel: "Cover (URL or File)",
+    addCoverLabel: "Cover (URL or PC File)",
+    btnCoverFile: "🖼️ File",
     saveGameBtn: "Save Game",
     artModalTitle: "Game Cover Studio",
     closeBtn: "Close",
     hudPlay: "Play",
-    hudCover: "Change Cover",
+    hudOptions: "Options",
+    hudCover: "Cover",
     hudFav: "Favorite",
-    hudTabs: "Tabs / Pages",
+    hudTabs: "Tabs",
     hudSidebar: "Toggle Menu",
     hudSettings: "Panel",
     hudExit: "Back",
+    btnScan: "🔄 Scan",
+    btnToggleGrid: "⊞ Full Grid",
+    btnToggleRow: "  PS5 Row",
     toastSaved: "Settings saved!",
     toastLangChanged: "Language switched to English 🇺🇸",
     toastFavAdd: "Added to favorites ⭐",
     toastFavRemove: "Removed from favorites",
     toastController: "Connected",
-    mPlay: "Play Now"
+    mPlay: "Play Now",
+    pixDonateBtn: "💠 Support Pix",
+    gameBlockedIndicator: "🔒 Paused"
+  },
+  ru: {
+    navHome: "Библиотека",
+    navInstalled: "Установленные",
+    navRecent: "Недавние",
+    navFav: "Избранное",
+    navCustom: "Локальные",
+    navSettings: "Настройки",
+    exitBtn: "Выход",
+    searchPlaceholder: "Поиск игр...",
+    playNow: "ИГРАТЬ",
+    heroOptions: "Опции",
+    allTitles: "Установленные игры",
+    readyToPlay: "игр",
+    noGamesTitle: "Игры не найдены",
+    noGamesSub: "Попробуйте другой запрос или измените категорию",
+    openLauncher: "Лаунчер",
+    langSetting: "Язык приложения",
+    langDesc: "Português, English или Русский",
+    soundSetting: "Звуковые эффекты",
+    soundDesc: "Синтезированные звуки навигации",
+    lockSetting: "Блокировка в фоне",
+    lockDesc: "Блокировать управление и навигацию, когда на экране другая игра или окно",
+    dockSetting: "Боковая панель навигации",
+    dockDesc: "Показать или свернуть левую панель",
+    dockBtn: "☰ Свернуть панель",
+    backupSetting: "💾 Резервное копирование и восстановление",
+    backupDesc: "Экспорт и импорт локальных игр, обложек, заметок и статистики",
+    exportJson: "⬇️ Экспорт JSON",
+    importJson: "⬆️ Импорт",
+    aspectLabel: "📐 Пропорции карточек:",
+    styleLabel: "✨ Визуальный стиль карточек:",
+    accentLabel: "🎨 Цвет акцента:",
+    radiusLabel: "🔘 Скругление углов:",
+    addNameLabel: "Название игры *",
+    addPathLabel: "Путь к файлу (.exe) или URL *",
+    btnBrowseExe: "📁 Обзор .exe",
+    btnTestExe: "▶ Тест",
+    addPlatformLabel: "Категория",
+    addGenreLabel: "Жанр",
+    addCoverLabel: "Обложка (URL или файл с ПК)",
+    btnCoverFile: "🖼️ Файл",
+    saveGameBtn: "Сохранить игру",
+    artModalTitle: "Студия обложек игр",
+    closeBtn: "Закрыть",
+    hudPlay: "Играть",
+    hudOptions: "Опции",
+    hudCover: "Обложка",
+    hudFav: "Избранное",
+    hudTabs: "Вкладки",
+    hudSidebar: "Скрыть меню",
+    hudSettings: "Панель",
+    hudExit: "Назад",
+    btnScan: "🔄 Сканировать",
+    btnToggleGrid: "⊞ Полная сетка",
+    btnToggleRow: "  Ряд PS5",
+    toastSaved: "Настройки сохранены!",
+    toastLangChanged: "Язык переключен на Русский 🇷🇺",
+    toastFavAdd: "Добавлено в избранное ⭐",
+    toastFavRemove: "Удалено из избранного",
+    toastController: "Подключен",
+    mPlay: "Играть сейчас",
+    pixDonateBtn: "💠 Поддержка Pix",
+    gameBlockedIndicator: "🔒 Пауза"
   }
 };
 
@@ -3363,72 +3483,137 @@ let currentLang = 'pt';
 
 function loadLanguage() {
   const saved = localStorage.getItem('ylauncher_lang') || localStorage.getItem('gamehub_lang');
-  if (saved && (saved === 'pt' || saved === 'en')) currentLang = saved;
+  if (saved && (saved === 'pt' || saved === 'en' || saved === 'ru')) {
+    currentLang = saved;
+  } else {
+    const nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (nav.startsWith('ru') || nav.startsWith('be') || nav.startsWith('uk')) {
+      currentLang = 'ru';
+    } else if (nav.startsWith('pt')) {
+      currentLang = 'pt';
+    } else {
+      currentLang = 'en';
+    }
+  }
   applyLanguage(currentLang);
 }
 
 
 function setLanguage(lang) {
-  if (lang !== 'pt' && lang !== 'en') return;
+  if (lang !== 'pt' && lang !== 'en' && lang !== 'ru') return;
   currentLang = lang;
   localStorage.setItem('ylauncher_lang', lang);
   localStorage.setItem('gamehub_lang', lang);
   applyLanguage(lang);
   showToast(I18N[lang].toastLangChanged);
   playSound('select');
+  try { renderGrid(); } catch (e) {}
+  try { setHero(currentHeroIndex); } catch (e) {}
 }
 
 
 function applyLanguage(lang) {
-  const t = I18N[lang];
-  if (!t) return;
-
+  const t = I18N[lang] || I18N.pt;
 
   const setTxt = (id, val) => {
     const el = document.getElementById(id);
     if (el && val !== undefined) el.textContent = val;
   };
 
-
   const btnPt = document.getElementById('btnLangPt');
   if (btnPt) btnPt.classList.toggle('active', lang === 'pt');
   const btnEn = document.getElementById('btnLangEn');
   if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+  const btnRu = document.getElementById('btnLangRu');
+  if (btnRu) btnRu.classList.toggle('active', lang === 'ru');
 
-
-  setTxt('i18n-navHome', t.navHome);
   setTxt('i18n-navInstalled', t.navInstalled);
-  setTxt('i18n-navCustom', t.navCustom);
+  setTxt('i18n-navHome', t.navHome);
+  setTxt('i18n-navRecent', t.navRecent);
   setTxt('i18n-navFav', t.navFav);
+  setTxt('i18n-navCustom', t.navCustom);
   setTxt('i18n-navSettings', t.navSettings);
   setTxt('i18n-exitBtn', t.exitBtn);
-  const searchInp = document.getElementById('searchInput');
-  if (searchInp) searchInp.placeholder = t.searchPlaceholder;
   setTxt('i18n-playNow', t.playNow);
+  setTxt('i18n-heroOptions', t.heroOptions);
   setTxt('i18n-allTitles', t.allTitles);
-  setTxt('i18n-langSetting', t.langSetting);
-  setTxt('i18n-soundSetting', t.soundSetting);
-  setTxt('i18n-aspectLabel', t.aspectLabel);
-  setTxt('i18n-styleLabel', t.styleLabel);
-  setTxt('i18n-accentLabel', t.accentLabel);
-  setTxt('i18n-radiusLabel', t.radiusLabel);
-  setTxt('i18n-addNameLabel', t.addNameLabel);
-  setTxt('i18n-addPathLabel', t.addPathLabel);
-  setTxt('i18n-addPlatformLabel', t.addPlatformLabel);
-  setTxt('i18n-addGenreLabel', t.addGenreLabel);
-  setTxt('i18n-addCoverLabel', t.addCoverLabel);
-  setTxt('i18n-saveGameBtn', t.saveGameBtn);
-  setTxt('i18n-artModalTitle', t.artModalTitle);
-  setTxt('i18n-closeBtn', t.closeBtn);
-  
+  setTxt('i18n-btnScan', t.btnScan);
+  setTxt('i18n-pixDonateBtn', t.pixDonateBtn);
+  setTxt('i18n-gameBlockedIndicator', t.gameBlockedIndicator);
 
   setTxt('i18n-hudPlay', t.hudPlay);
+  setTxt('i18n-hudOptions', t.hudOptions);
   setTxt('i18n-hudCover', t.hudCover);
   setTxt('i18n-hudFav', t.hudFav);
   setTxt('i18n-hudTabs', t.hudTabs);
   setTxt('i18n-hudSidebar', t.hudSidebar);
   setTxt('i18n-hudSettings', t.hudSettings);
   setTxt('i18n-hudExit', t.hudExit);
+
+  setTxt('i18n-langSetting', t.langSetting);
+  setTxt('i18n-langDesc', t.langDesc);
+  setTxt('i18n-soundSetting', t.soundSetting);
+  setTxt('i18n-soundDesc', t.soundDesc);
+  setTxt('i18n-lockSetting', t.lockSetting);
+  setTxt('i18n-lockDesc', t.lockDesc);
+  setTxt('i18n-dockSetting', t.dockSetting);
+  setTxt('i18n-dockDesc', t.dockDesc);
+  setTxt('i18n-dockBtn', t.dockBtn);
+  setTxt('i18n-backupSetting', t.backupSetting);
+  setTxt('i18n-backupDesc', t.backupDesc);
+  setTxt('i18n-exportJson', t.exportJson);
+  setTxt('i18n-importJson', t.importJson);
+
+  setTxt('i18n-aspectLabel', t.aspectLabel);
+  setTxt('i18n-styleLabel', t.styleLabel);
+  setTxt('i18n-accentLabel', t.accentLabel);
+  setTxt('i18n-radiusLabel', t.radiusLabel);
+  setTxt('i18n-addNameLabel', t.addNameLabel);
+  setTxt('i18n-addPathLabel', t.addPathLabel);
+  setTxt('i18n-btnBrowseExe', t.btnBrowseExe);
+  setTxt('i18n-btnTestExe', t.btnTestExe);
+  setTxt('i18n-addPlatformLabel', t.addPlatformLabel);
+  setTxt('i18n-addGenreLabel', t.addGenreLabel);
+  setTxt('i18n-addCoverLabel', t.addCoverLabel);
+  setTxt('i18n-btnCoverFile', t.btnCoverFile);
+  setTxt('i18n-saveGameBtn', t.saveGameBtn);
+  setTxt('i18n-artModalTitle', t.artModalTitle);
+  setTxt('i18n-closeBtn', t.closeBtn);
+  setTxt('i18n-mPlay', t.mPlay);
+
+  const searchInp = document.getElementById('searchInput');
+  if (searchInp) searchInp.placeholder = t.searchPlaceholder;
+
+  const newNameInp = document.getElementById('newGameName');
+  if (newNameInp) newNameInp.placeholder = tr('Ex: Minecraft, GTA V, Emulador PS2...', 'Ex: Minecraft, GTA V, PS2 Emulator...', 'Напр.: Minecraft, GTA V, Эмулятор PS2...');
+  const newPathInp = document.getElementById('newGamePath');
+  if (newPathInp) newPathInp.placeholder = tr('Ex: C:\\Jogos\\Game\\jogo.exe ou roblox://...', 'Ex: C:\\Games\\Game\\game.exe or roblox://...', 'Напр.: C:\\Games\\Game\\game.exe или roblox://...');
+  const newGenreInp = document.getElementById('newGameGenre');
+  if (newGenreInp) newGenreInp.placeholder = tr('Ex: Aventura, RPG...', 'Ex: Adventure, RPG...', 'Напр.: Приключения, RPG...');
+  const newCoverInp = document.getElementById('newGameCover');
+  if (newCoverInp) newCoverInp.placeholder = tr('Cole a URL ou envie foto do PC', 'Paste image URL or upload from PC', 'Вставьте URL или загрузите с ПК');
+  const artSearchInp = document.getElementById('artSearchInput');
+  if (artSearchInp) artSearchInp.placeholder = tr('Buscar jogo no SteamGridDB...', 'Search game on SteamGridDB...', 'Поиск игры на SteamGridDB...');
+  const notesInp = document.getElementById('mGameNotes');
+  if (notesInp) notesInp.placeholder = tr('Anote dicas, builds, progresso da campanha ou lembretes...', 'Write notes, builds, campaign progress or reminders...', 'Заметки, билды, прогресс прохождения или напоминания...');
+
+  const sortSelect = document.getElementById('sortSelect');
+  if (sortSelect && sortSelect.options && sortSelect.options.length >= 4) {
+    sortSelect.options[0].text = 'A - Z';
+    sortSelect.options[1].text = tr('Recentes', 'Recent', 'Недавние');
+    sortSelect.options[2].text = tr('Mais Jogados', 'Most Played', 'Больше всего сыграно');
+    sortSelect.options[3].text = tr('Instalados', 'Installed', 'Установленные');
+  }
+
+  const btnToggleGrid = document.getElementById('btnTogglePs5Grid');
+  if (btnToggleGrid) {
+    btnToggleGrid.textContent = document.body.classList.contains('ps5-full-grid-mode') ? t.btnToggleRow : t.btnToggleGrid;
+  }
+
+  const soundSt = document.getElementById('i18n-soundState');
+  if (soundSt) soundSt.textContent = soundEnabled ? tr('Ligado', 'On', 'Вкл') : tr('Desligado', 'Off', 'Выкл');
+  const lockSt = document.getElementById('i18n-lockState');
+  if (lockSt) lockSt.textContent = (window.GP && GP.backgroundLockEnabled) ? tr('Ativado', 'Enabled', 'Включено') : tr('Desativado', 'Disabled', 'Отключено');
 }
 
 
@@ -3451,8 +3636,8 @@ function toggleSidebar() {
   updateSidebarStateUI();
   playSound('select');
   showToast(sidebarCollapsed 
-    ? (currentLang === 'pt' ? 'Painel lateral recolhido' : 'Sidebar collapsed') 
-    : (currentLang === 'pt' ? 'Painel lateral expandido' : 'Sidebar expanded'));
+    ? tr('Painel lateral recolhido', 'Sidebar collapsed', 'Боковая панель свернута') 
+    : tr('Painel lateral expandido', 'Sidebar expanded', 'Боковая панель развернута'));
   if (window.GP && GP.updateVisualFocus) {
     setTimeout(() => GP.updateVisualFocus(), 200);
   }
@@ -3466,8 +3651,8 @@ function updateSidebarStateUI() {
   const toggleBtn = document.getElementById('sidebarToggleBtn');
   if (toggleBtn) {
     toggleBtn.setAttribute('title', sidebarCollapsed 
-      ? (currentLang === 'pt' ? 'Expandir Painel Esquerdo (L3 / H)' : 'Expand Left Panel (L3 / H)')
-      : (currentLang === 'pt' ? 'Ocultar Painel Esquerdo (L3 / H)' : 'Collapse Left Panel (L3 / H)'));
+      ? tr('Expandir Painel Esquerdo (L3 / H)', 'Expand Left Panel (L3 / H)', 'Развернуть левую панель (L3 / H)')
+      : tr('Ocultar Painel Esquerdo (L3 / H)', 'Collapse Left Panel (L3 / H)', 'Свернуть левую панель (L3 / H)'));
   }
 }
 
@@ -3566,11 +3751,11 @@ function applyLibraryCardSize() {
   if (cardSizeLarge) {
     root.style.setProperty('--grid-min-col', isBanner ? '350px' : '250px');
     document.getElementById('cardSizeToggleBtn').classList.add('active');
-    document.getElementById('cardSizeToggleBtn').title = currentLang === 'pt' ? 'Capas Grandes (Ativado)' : 'Large Covers (Active)';
+    document.getElementById('cardSizeToggleBtn').title = cardSizeLarge ? tr('Capas Grandes (Ativado)', 'Large Covers (Active)', 'Крупные обложки (Вкл)') : tr('Tamanho Normal', 'Normal Size', 'Обычный размер');
   } else {
     root.style.setProperty('--grid-min-col', isBanner ? '270px' : '190px');
     document.getElementById('cardSizeToggleBtn').classList.remove('active');
-    document.getElementById('cardSizeToggleBtn').title = currentLang === 'pt' ? 'Tamanho Normal' : 'Normal Size';
+    document.getElementById('cardSizeToggleBtn').title = cardSizeLarge ? tr('Capas Grandes (Ativado)', 'Large Covers (Active)', 'Крупные обложки (Вкл)') : tr('Tamanho Normal', 'Normal Size', 'Обычный размер');
   }
   if (window.GP && GP.updateCols) GP.updateCols();
 }
@@ -3581,7 +3766,7 @@ function toggleLibraryCardSize() {
   localStorage.setItem('ylauncher_card_size', cardSizeLarge ? 'large' : 'normal');
   localStorage.setItem('gamehub_card_size', cardSizeLarge ? 'large' : 'normal');
   applyLibraryCardSize();
-  showToast(cardSizeLarge ? (currentLang === 'pt' ? 'Capas Grandes (HD) ativadas 🗖' : 'Large Covers active 🗖') : (currentLang === 'pt' ? 'Tamanho normal de capas' : 'Normal card size'));
+  showToast(cardSizeLarge ? tr('Capas Grandes (HD) ativadas 🗖', 'Large Covers active 🗖', 'Крупные обложки (HD) включены 🗖') : tr('Tamanho normal de capas', 'Normal card size', 'Обычный размер обложек'));
   playSound('select');
 }
 
@@ -3757,18 +3942,18 @@ function applyCoverToGameInDom(gameId, url) {
 function applyCurrentStudioCover() {
   const gameId = document.getElementById('artModalGameId').value;
   if (!gameId) {
-    showToast(currentLang === 'pt' ? 'Nenhum jogo selecionado!' : 'No game selected!');
+    showToast(tr('Nenhum jogo selecionado!', 'No game selected!', 'Игра не выбрана!'));
     return;
   }
   const url = selectedStudioCover ? (selectedStudioCover.url || selectedStudioCover) : null;
   if (!url) {
-    showToast(currentLang === 'pt' ? 'Selecione uma capa na lista primeiro!' : 'Select a cover from the list first!');
+    showToast(tr('Selecione uma capa na lista primeiro!', 'Select a cover from the list first!', 'Сначала выберите обложку из списка!'));
     return;
   }
   setCustomCover(gameId, url);
   applyCoverToGameInDom(gameId, url);
   hideModal('customizeArtModal');
-  showToast(currentLang === 'pt' ? 'Capa aplicada com sucesso!' : 'Cover applied successfully!');
+  showToast(tr('Capa aplicada com sucesso!', 'Cover applied successfully!', 'Обложка успешно применена!'));
   playSound('fav');
 }
 
@@ -3780,7 +3965,7 @@ function applyStudioCoverQuick(encodedUrl) {
   setCustomCover(gameId, url);
   applyCoverToGameInDom(gameId, url);
   hideModal('customizeArtModal');
-  showToast(currentLang === 'pt' ? 'Capa aplicada com sucesso!' : 'Cover applied successfully!');
+  showToast(tr('Capa aplicada com sucesso!', 'Cover applied successfully!', 'Обложка успешно применена!'));
   playSound('fav');
 }
 
@@ -3838,18 +4023,18 @@ function applyBannerToGameInDom(gameId, url) {
 function applyCurrentStudioBanner() {
   const gameId = document.getElementById('artModalGameId').value;
   if (!gameId) {
-    showToast(currentLang === 'pt' ? 'Nenhum jogo selecionado!' : 'No game selected!');
+    showToast(tr('Nenhum jogo selecionado!', 'No game selected!', 'Игра не выбрана!'));
     return;
   }
   const url = selectedStudioCover ? (selectedStudioCover.url || selectedStudioCover) : null;
   if (!url) {
-    showToast(currentLang === 'pt' ? 'Selecione um banner na lista primeiro!' : 'Select a banner from the list first!');
+    showToast(tr('Selecione um banner na lista primeiro!', 'Select a banner from the list first!', 'Сначала выберите баннер из списка!'));
     return;
   }
   setCustomBanner(gameId, url);
   applyBannerToGameInDom(gameId, url);
   hideModal('customizeArtModal');
-  showToast(currentLang === 'pt' ? 'Background / Banner aplicado com sucesso!' : 'Background / Banner applied successfully!');
+  showToast(tr('Background / Banner aplicado com sucesso!', 'Background / Banner applied successfully!', 'Фон / баннер успешно применен!'));
   playSound('fav');
 }
 
@@ -3861,7 +4046,7 @@ function applyStudioBannerQuick(encodedUrl) {
   setCustomBanner(gameId, url);
   applyBannerToGameInDom(gameId, url);
   hideModal('customizeArtModal');
-  showToast(currentLang === 'pt' ? 'Background / Banner aplicado com sucesso!' : 'Background / Banner applied successfully!');
+  showToast(tr('Background / Banner aplicado com sucesso!', 'Background / Banner applied successfully!', 'Фон / баннер успешно применен!'));
   playSound('fav');
 }
 
@@ -3874,15 +4059,15 @@ function updateStudioTargetUI() {
   const titleEl = document.getElementById('i18n-artModalTitle');
   if (titleEl) {
     titleEl.textContent = (studioTarget === 'hero')
-      ? (currentLang === 'pt' ? 'Personalizar Background / Banner do Jogo (Widescreen)' : 'Customize Game Background / Banner (Widescreen)')
-      : (currentLang === 'pt' ? 'Personalizar Capa do Jogo (Grid 600x900)' : 'Customize Game Cover (600x900 Grid)');
+      ? tr('Personalizar Background / Banner do Jogo (Widescreen)', 'Customize Game Background / Banner (Widescreen)', 'Настройка фона / баннера игры (Widescreen)')
+      : tr('Personalizar Capa do Jogo (Grid 600x900)', 'Customize Game Cover (600x900 Grid)', 'Настройка обложки игры (600x900)');
   }
 
   const btnApply = document.getElementById('btnStudioApplyMain');
   if (btnApply) {
     btnApply.textContent = (studioTarget === 'hero')
-      ? (currentLang === 'pt' ? '✓ APLICAR ESTE BACKGROUND' : '✓ APPLY THIS BACKGROUND')
-      : (currentLang === 'pt' ? '✓ APLICAR ESTA CAPA' : '✓ APPLY THIS COVER');
+      ? tr('✓ APLICAR ESTE BACKGROUND', '✓ APPLY THIS BACKGROUND', '✓ ПРИМЕНИТЬ ЭТОТ ФОН')
+      : tr('✓ APLICAR ESTA CAPA', '✓ APPLY THIS COVER', '✓ ПРИМЕНИТЬ ЭТУ ОБЛОЖКУ');
     btnApply.onclick = (studioTarget === 'hero') ? applyCurrentStudioBanner : applyCurrentStudioCover;
   }
 
@@ -3910,7 +4095,7 @@ function restoreDefaultCover() {
   const g = getGame(gameId);
   if (g) applyCoverToGameInDom(gameId, g.cover);
   hideModal('customizeArtModal');
-  showToast(currentLang === 'pt' ? 'Capa restaurada para o padrão oficial!' : 'Cover restored to official default!');
+  showToast(tr('Capa restaurada para o padrão oficial!', 'Cover restored to official default!', 'Обложка сброшена на официальную по умолчанию!'));
   playSound('select');
 }
 
@@ -3922,7 +4107,7 @@ function restoreCurrentStudioArt() {
     removeCustomBanner(gameId);
     if (g) applyBannerToGameInDom(gameId, g.hero);
     hideModal('customizeArtModal');
-    showToast(currentLang === 'pt' ? 'Background restaurado para o padrão original!' : 'Background restored to original default!');
+    showToast(tr('Background restaurado para o padrão original!', 'Background restored to original default!', 'Фон сброшен на оригинальный по умолчанию!'));
     playSound('select');
   } else {
     restoreDefaultCover();
@@ -3940,8 +4125,8 @@ function updateSteamGridStatusUI() {
     indicator.textContent = '●';
     indicator.style.color = '#4ade80';
     text.textContent = userCustom
-      ? (currentLang === 'pt' ? 'SteamGridDB: Conectado (Chave Própria)' : 'SteamGridDB: Connected (Custom Key)')
-      : (currentLang === 'pt' ? 'SteamGridDB: Conectado (API Nativa Ativa • Grids & Heroes)' : 'SteamGridDB: Connected (Native API Active • Grids & Heroes)');
+      ? tr('SteamGridDB: Conectado (Chave Própria)', 'SteamGridDB: Connected (Custom Key)', 'SteamGridDB: Подключено (Свой ключ)')
+      : tr('SteamGridDB: Conectado (API Nativa Ativa • Grids & Heroes)', 'SteamGridDB: Connected (Native API Active • Grids & Heroes)', 'SteamGridDB: Подключено (Нативный API • Сетки и герои)');
     text.style.color = '#4ade80';
   }
 }
@@ -3958,7 +4143,7 @@ function saveSteamGridKeyQuick() {
     localStorage.removeItem('gamehub_steamgrid_key');
   }
   updateSteamGridStatusUI();
-  showToast(currentLang === 'pt' ? 'Configuração do SteamGridDB salva!' : 'SteamGridDB setting saved!');
+  showToast(tr('Configuração do SteamGridDB salva!', 'SteamGridDB setting saved!', 'Настройки SteamGridDB сохранены!'));
   playSound('fav');
   searchGameCoversUniversal();
 }
@@ -4182,7 +4367,7 @@ async function selectGameMatch(gameMatchId) {
   const isHero = (studioTarget === 'hero');
   const grid = document.getElementById('artSearchResultsGrid');
   if (grid) {
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 36px 20px; color: var(--text-muted);"><span class="spin">⏳</span> ${currentLang === 'pt' ? (isHero ? 'Carregando backgrounds e banners...' : 'Carregando capas do jogo...') : 'Loading art...'}</div>`;
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 36px 20px; color: var(--text-muted);"><span class="spin">⏳</span> ${isHero ? tr('Carregando backgrounds e banners...', 'Loading backgrounds and heroes...', 'Загрузка фонов и баннеров...') : tr('Carregando capas do jogo...', 'Loading game covers...', 'Загрузка обложек игры...')}</div>`;
   }
 
   let combined = [];
@@ -4247,7 +4432,7 @@ async function searchGameCoversUniversal() {
   if (!grid) return;
 
   const isHero = (studioTarget === 'hero');
-  grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 36px 20px; color: var(--text-muted);"><span class="spin">⏳</span> ${currentLang === 'pt' ? (isHero ? 'Buscando backgrounds oficiais e SteamGridDB (1920x620)...' : 'Buscando capas oficiais e SteamGridDB (600x900)...') : (isHero ? 'Searching official and SteamGridDB heroes...' : 'Searching official and SteamGridDB grids...') }</div>`;
+  grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 36px 20px; color: var(--text-muted);"><span class="spin">⏳</span> ${isHero ? tr('Buscando backgrounds oficiais e SteamGridDB (1920x620)...', 'Searching official and SteamGridDB heroes...', 'Поиск официальных фонов и SteamGridDB (1920x620)...') : tr('Buscando capas oficiais e SteamGridDB (600x900)...', 'Searching official and SteamGridDB grids...', 'Поиск официальных обложек и SteamGridDB (600x900)...') }</div>`;
 
   currentFoundGamesList = [];
   activeSelectedMatchId = null;
@@ -4501,11 +4686,11 @@ function renderCurrentStudioPage() {
   if (studioCurrentPage < 1) studioCurrentPage = 1;
 
   const unitLabel = isHero 
-    ? (currentLang === 'pt' ? 'backgrounds' : 'backgrounds') 
-    : (currentLang === 'pt' ? 'capas' : 'covers');
+    ? tr('backgrounds', 'backgrounds', 'фонов') 
+    : tr('capas', 'covers', 'обложек');
   const pageInfo = document.getElementById('studioPageInfo');
   if (pageInfo) {
-    pageInfo.innerHTML = `${currentLang === 'pt' ? 'Página' : 'Page'} <strong id="studioPageNum">${studioCurrentPage}</strong> ${currentLang === 'pt' ? 'de' : 'of'} <strong id="studioPageTotal">${totalPages}</strong> (<span id="studioTotalCovers">${totalItems}</span> ${unitLabel})`;
+    pageInfo.innerHTML = `${tr('Página', 'Page', 'Страница')} <strong id="studioPageNum">${studioCurrentPage}</strong> ${tr('de', 'of', 'из')} <strong id="studioPageTotal">${totalPages}</strong> (<span id="studioTotalCovers">${totalItems}</span> ${unitLabel})`;
   }
 
   if (prevBtn) {
@@ -4520,15 +4705,15 @@ function renderCurrentStudioPage() {
   }
 
   if (!totalItems) {
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 30px; color: var(--text-muted);">${currentLang === 'pt' ? 'Nenhuma arte encontrada neste filtro.' : 'No art found for this filter.'}</div>`;
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 30px; color: var(--text-muted);">${tr('Nenhuma arte encontrada neste filtro.', 'No art found for this filter.', 'В этом фильтре ничего не найдено.')}</div>`;
     return;
   }
 
   const startIdx = (studioCurrentPage - 1) * perPage;
   const pageItems = studioFilteredResults.slice(startIdx, startIdx + perPage);
   const applyLabel = isHero 
-    ? (currentLang === 'pt' ? '✓ Usar Background' : '✓ Use Background') 
-    : (currentLang === 'pt' ? '✓ Usar Capa' : '✓ Use Cover');
+    ? tr('✓ Usar Background', '✓ Use Background', '✓ Использовать фон') 
+    : tr('✓ Usar Capa', '✓ Use Cover', '✓ Использовать обложку');
   const quickApplyFn = isHero ? 'applyStudioBannerQuick' : 'applyStudioCoverQuick';
   const placeholderRatio = isHero ? '1920x620' : '600x900';
 
@@ -4630,12 +4815,12 @@ function selectStudioCoverDirect(encodedUrl) {
   if (info) {
     if (studioTarget === 'hero') {
       info.textContent = found.isMain 
-        ? (currentLang === 'pt' ? '🌟 Background Oficial • Widescreen 1920x620' : '🌟 Official Hero • Widescreen 1920x620') 
-        : (currentLang === 'pt' ? '🎨 Background da Comunidade • Widescreen' : '🎨 Community Hero • Widescreen');
+        ? tr('🌟 Background Oficial • Widescreen 1920x620', '🌟 Official Hero • Widescreen 1920x620', '🌟 Официальный фон • 1920x620') 
+        : tr('🎨 Background da Comunidade • Widescreen', '🎨 Community Hero • Widescreen', '🎨 Фон сообщества • Widescreen');
     } else {
       info.textContent = found.isMain 
-        ? (currentLang === 'pt' ? '🌟 Capa Oficial Principal • 600x900' : '🌟 Official Main Grid • 600x900') 
-        : (currentLang === 'pt' ? '🎨 Grade da Comunidade • 600x900' : '🎨 Community Grid • 600x900');
+        ? tr('🌟 Capa Oficial Principal • 600x900', '🌟 Official Main Grid • 600x900', '🌟 Официальная обложка • 600x900') 
+        : tr('🎨 Grade da Comunidade • 600x900', '🎨 Community Grid • 600x900', '🎨 Обложка сообщества • 600x900');
     }
   }
 }
@@ -4737,7 +4922,7 @@ function applyCustomArtFromUrlInput() {
 function onLocalArtFileSelected(input) {
   if (input.files && input.files[0]) {
     if (input.files[0].size > 5 * 1024 * 1024) {
-      showToast(currentLang === 'pt' ? 'A imagem deve ter no máximo 5 MB.' : 'The image must be 5 MB or smaller.');
+      showToast(tr('A imagem deve ter no máximo 5 MB.', 'The image must be 5 MB or smaller.', 'Изображение должно быть не более 5 МБ.'));
       input.value = '';
       return;
     }
@@ -4843,7 +5028,7 @@ async function triggerNativeExeBrowse() {
           if (!document.getElementById('newGameName').value && data.name) {
             document.getElementById('newGameName').value = data.name;
           }
-          showToast(currentLang === 'pt' ? 'Executável vinculado: ' + data.name : 'Executable linked: ' + data.name);
+          showToast(tr('Executável vinculado: ', 'Executable linked: ', 'Исполняемый файл привязан: ') + data.name);
           playSound('fav');
           return;
         } else if (data.cancelled) {
@@ -4875,7 +5060,7 @@ async function triggerNativeExeBrowse() {
           if (!document.getElementById('newGameName').value) {
             document.getElementById('newGameName').value = fileName;
           }
-          showToast(currentLang === 'pt' ? 'Executável vinculado: ' + fileName : 'Executable linked: ' + fileName);
+          showToast(tr('Executável vinculado: ', 'Executable linked: ', 'Исполняемый файл привязан: ') + fileName);
           playSound('fav');
           clearInterval(pollInterval);
         }
@@ -4896,7 +5081,7 @@ async function triggerNativeExeBrowse() {
 function onLocalCoverSelected(input, targetId) {
   if (input.files && input.files[0]) {
     if (input.files[0].size > 5 * 1024 * 1024) {
-      showToast(currentLang === 'pt' ? 'A imagem deve ter no máximo 5 MB.' : 'The image must be 5 MB or smaller.');
+      showToast(tr('A imagem deve ter no máximo 5 MB.', 'The image must be 5 MB or smaller.', 'Изображение должно быть не более 5 МБ.'));
       input.value = '';
       return;
     }
@@ -4915,12 +5100,12 @@ function saveNewGame() {
   let name = normalizeText(document.getElementById('newGameName').value, 120);
   let path = normalizeText(document.getElementById('newGamePath').value, 2048).replace(/^"(.*)"$/, '$1').trim();
   const platform = document.getElementById('newGamePlatform').value;
-  const genre = normalizeText(document.getElementById('newGameGenre').value, 100) || (currentLang === 'pt' ? 'Jogo Local' : 'Local Game');
+  const genre = normalizeText(document.getElementById('newGameGenre').value, 100) || tr('Jogo Local', 'Local Game', 'Локальная игра');
   let cover = document.getElementById('newGameCover').value.trim();
 
 
   if (!path) {
-    showToast(currentLang === 'pt' ? 'Informe o caminho do executável!' : 'Provide the executable path!');
+    showToast(tr('Informe o caminho do executável!', 'Provide the executable path!', 'Укажите путь к исполняемому файлу!'));
     playSound('back');
     return;
   }
@@ -4963,7 +5148,7 @@ function saveNewGame() {
 
   saveCustomGames();
   hideModal('hubModal');
-  showToast(currentLang === 'pt' ? 'Jogo salvo com sucesso! 🎮' : 'Game saved successfully! 🎮');
+  showToast(tr('Jogo salvo com sucesso! 🎮', 'Game saved successfully! 🎮', 'Игра успешно сохранена! 🎮'));
   playSound('fav');
 }
 
@@ -4973,12 +5158,12 @@ function deleteCurrentCustomGame() {
   if (!gameId) return;
 
 
-  const msg = currentLang === 'pt' ? 'Deseja remover este jogo do yLauncher?' : 'Remove this game from yLauncher?';
+  const msg = tr('Deseja remover este jogo do yLauncher?', 'Remove this game from yLauncher?', 'Удалить эту игру из yLauncher?');
   if (confirm(msg)) {
     customGames = customGames.filter(x => String(x.id) !== String(gameId));
     saveCustomGames();
     hideModal('gameModal');
-    showToast(currentLang === 'pt' ? 'Jogo removido!' : 'Game removed!');
+    showToast(tr('Jogo removido!', 'Game removed!', 'Игра удалена!'));
     playSound('back');
   }
 }
@@ -5000,7 +5185,7 @@ function launchProtocolUri(uri) {
 
 async function launchTarget(path) {
   if (!path) {
-    showToast(currentLang === 'pt' ? 'Caminho do jogo não configurado!' : 'Game path not configured!');
+    showToast(tr('Caminho do jogo não configurado!', 'Game path not configured!', 'Путь к игре не настроен!'));
     return;
   }
   playSound('select');
@@ -5014,7 +5199,7 @@ async function launchTarget(path) {
 
 
   // Mostra toast antes de tentar
-  showToast(currentLang === 'pt' ? 'Iniciando jogo...' : 'Launching game...');
+  showToast(tr('Iniciando jogo...', 'Launching game...', 'Запуск игры...'));
 
 
   // Tenta sempre a ponte nativa primeiro (funciona para .exe E para steam://, origin://, etc.)
@@ -5032,7 +5217,7 @@ async function launchTarget(path) {
       const data = await res.json().catch(() => null);
       if (res.ok && data && data.success) {
         bridgeSuccess = true;
-        showToast(currentLang === 'pt' ? 'Jogo iniciado! 🎮' : 'Game launched! 🎮');
+        showToast(tr('Jogo iniciado! 🎮', 'Game launched! 🎮', 'Игра запущена! 🎮'));
         playSound('fav');
         break;
       } else if (data && data.error) {
@@ -5043,7 +5228,7 @@ async function launchTarget(path) {
 
 
   if (lastError && !bridgeSuccess) {
-    showToast((currentLang === 'pt' ? 'Erro ao iniciar: ' : 'Launch error: ') + lastError);
+    showToast(tr('Erro ao iniciar: ', 'Launch error: ', 'Ошибка запуска: ') + lastError);
     playSound('back');
     return;
   }
@@ -5055,7 +5240,7 @@ async function launchTarget(path) {
     if (isProtocol) {
       launchProtocolUri(cleanPath);
     } else {
-      showToast(currentLang === 'pt' ? 'Ponte yLauncher não encontrada. Execute o yLauncher.exe.' : 'yLauncher bridge not found. Run yLauncher.exe.');
+      showToast(tr('Ponte yLauncher não encontrada. Execute o yLauncher.exe.', 'yLauncher bridge not found. Run yLauncher.exe.', 'Мост yLauncher не найден. Запустите yLauncher.exe.'));
       playSound('back');
     }
   }
@@ -5065,7 +5250,7 @@ async function launchTarget(path) {
 function testCurrentExePath() {
   const p = document.getElementById('newGamePath').value.trim();
   if (!p) {
-    showToast(currentLang === 'pt' ? 'Informe o caminho do executável primeiro!' : 'Specify the executable path first!');
+    showToast(tr('Informe o caminho do executável primeiro!', 'Specify the executable path first!', 'Сначала укажите путь к исполняемому файлу!'));
     playSound('back');
     return;
   }
@@ -5251,7 +5436,7 @@ function getAllGames() {
       id: cg.id,
       name: cg.name,
       platform: cg.platform || 'custom',
-      genre: cg.genre || (currentLang === 'pt' ? 'Jogo Local' : 'Local Game'),
+      genre: cg.genre || tr('Jogo Local', 'Local Game', 'Локальная игра'),
       cover: coverArt || cg.cover || `https://via.placeholder.com/600x900/14141e/22c55e?text=${encodeURIComponent(cg.name)}`,
       hero: bannerArt || cg.hero || coverArt || cg.cover || `https://via.placeholder.com/1920x1080/07070b/22c55e?text=${encodeURIComponent(cg.name)}`,
       isCustom: cg.platform === 'custom' || !cg.platform,
@@ -5260,7 +5445,7 @@ function getAllGames() {
       exePath: cg.exePath,
       launch: () => launchTarget(cg.exePath),
       launcherFn: () => launchTarget(cg.exePath),
-      launcherLabel: currentLang === 'pt' ? "Abrir Jogo" : "Launch Game"
+      launcherLabel: tr('Abrir Jogo', 'Launch Game', 'Запустить игру')
     };
   });
 
@@ -5350,9 +5535,48 @@ function toggleAudio() {
   localStorage.setItem('ylauncher_sound', soundEnabled ? '1' : '0');
   localStorage.setItem('gamehub_sound', soundEnabled ? '1' : '0');
   document.getElementById('settingsSoundToggle').classList.toggle('active', soundEnabled);
-  document.getElementById('i18n-soundState').textContent = soundEnabled ? (currentLang === 'pt' ? 'Ligado' : 'On') : (currentLang === 'pt' ? 'Desligado' : 'Off');
-  showToast(soundEnabled ? (currentLang === 'pt' ? 'Sons Ligados' : 'Audio On') : (currentLang === 'pt' ? 'Sons Silenciados' : 'Audio Off'));
+  document.getElementById('i18n-soundState').textContent = soundEnabled ? tr('Ligado', 'On', 'Вкл') : tr('Desligado', 'Off', 'Выкл');
+  showToast(soundEnabled ? tr('Sons Ligados', 'Audio On', 'Звуки включены') : tr('Sons Silenciados', 'Audio Off', 'Звуки выключены'));
   if (soundEnabled) playSound('select');
+}
+
+
+function loadBackgroundLockConfig() {
+  try {
+    const saved = localStorage.getItem('ylauncher_bg_lock');
+    if (saved !== null) {
+      GP.backgroundLockEnabled = (saved === '1');
+    } else {
+      GP.backgroundLockEnabled = true;
+    }
+  } catch (e) {
+    GP.backgroundLockEnabled = true;
+  }
+  updateBackgroundLockUI();
+}
+
+
+function toggleBackgroundLock() {
+  GP.backgroundLockEnabled = !GP.backgroundLockEnabled;
+  try {
+    localStorage.setItem('ylauncher_bg_lock', GP.backgroundLockEnabled ? '1' : '0');
+  } catch (e) {}
+  updateBackgroundLockUI();
+  playSound('select');
+  showToast(GP.backgroundLockEnabled 
+    ? tr('Bloqueio em segundo plano ativado 🛡️', 'Background lock enabled 🛡️', 'Блокировка в фоне включена 🛡️')
+    : tr('Bloqueio em segundo plano desativado', 'Background lock disabled', 'Блокировка в фоне отключена'));
+}
+
+
+function updateBackgroundLockUI() {
+  const tgl = document.getElementById('settingsBgLockToggle');
+  if (tgl) tgl.classList.toggle('active', GP.backgroundLockEnabled);
+  const st = document.getElementById('i18n-lockState');
+  if (st) st.textContent = GP.backgroundLockEnabled ? tr('Ativado', 'Enabled', 'Включено') : tr('Desativado', 'Disabled', 'Отключено');
+  if (window.GP && GP.updateGameBlockedOverlay) {
+    GP.updateGameBlockedOverlay(GP.blockedByGame);
+  }
 }
 
 
@@ -5413,13 +5637,13 @@ function formatPlaytime(mins) {
 
 
 function formatLastPlayed(ts) {
-  if (!ts || ts <= 0) return currentLang === 'pt' ? 'Nunca' : 'Never';
+  if (!ts || ts <= 0) return tr('Nunca', 'Never', 'Никогда');
   const diffMs = Date.now() - ts;
   const diffHours = diffMs / (1000 * 3600);
-  if (diffHours < 24) return currentLang === 'pt' ? 'Hoje' : 'Today';
-  if (diffHours < 48) return currentLang === 'pt' ? 'Ontem' : 'Yesterday';
+  if (diffHours < 24) return tr('Hoje', 'Today', 'Сегодня');
+  if (diffHours < 48) return tr('Ontem', 'Yesterday', 'Вчера');
   const d = new Date(ts);
-  return d.toLocaleDateString(currentLang === 'pt' ? 'pt-BR' : 'en-US');
+  return d.toLocaleDateString(currentLang === 'pt' ? 'pt-BR' : (currentLang === 'ru' ? 'ru-RU' : 'en-US'));
 }
 
 
@@ -5591,7 +5815,7 @@ function renderGenreChips() {
   }
 
 
-  const allLabel = currentLang === 'pt' ? '✨ Todos os Gêneros' : '✨ All Genres';
+  const allLabel = tr('✨ Todos os Gêneros', '✨ All Genres', '✨ Все жанры');
   let html = `<button class="genre-chip ${currentGenreFilter === 'ALL' ? 'active' : ''}" onclick="setGenreFilter('ALL')">${allLabel}</button>`;
   topGenres.forEach(gn => {
     const isAct = (currentGenreFilter === gn);
@@ -5617,28 +5841,28 @@ function setTab(tab) {
 
 
   const titles = {
-    all: currentLang === 'pt' ? 'BIBLIOTECA COMPLETA' : 'FULL LIBRARY',
-    installed: currentLang === 'pt' ? 'JOGOS INSTALADOS' : 'INSTALLED GAMES',
-    recent: currentLang === 'pt' ? 'JOGADOS RECENTEMENTE' : 'RECENTLY PLAYED',
+    all: tr('BIBLIOTECA COMPLETA', 'FULL LIBRARY', 'ПОЛНАЯ БИБЛИОТЕКА'),
+    installed: tr('JOGOS INSTALADOS', 'INSTALLED GAMES', 'УСТАНОВЛЕННЫЕ ИГРЫ'),
+    recent: tr('JOGADOS RECENTEMENTE', 'RECENTLY PLAYED', 'НЕДАВНО СЫГРАННЫЕ'),
     steam: 'STEAM',
     bnet: 'BATTLE.NET',
     ea: 'EA PLAY',
-    custom: currentLang === 'pt' ? 'JOGOS LOCAIS' : 'LOCAL GAMES',
-    fav: currentLang === 'pt' ? 'FAVORITOS' : 'FAVORITES'
+    custom: tr('JOGOS LOCAIS', 'LOCAL GAMES', 'ЛОКАЛЬНЫЕ ИГРЫ'),
+    fav: tr('FAVORITOS', 'FAVORITES', 'ИЗБРАННОЕ')
   };
   const bTitle = document.getElementById('breadcrumbTitle');
   if (bTitle) bTitle.textContent = titles[tab] || 'BIBLIOTECA';
 
 
   const gridTitles = {
-    all: currentLang === 'pt' ? 'Todos os Títulos' : 'All Titles',
-    installed: currentLang === 'pt' ? 'Jogos Instalados' : 'Installed Games',
-    recent: currentLang === 'pt' ? 'Jogados Recentemente' : 'Recently Played',
+    all: tr('Todos os Títulos', 'All Titles', 'Все игры'),
+    installed: tr('Jogos Instalados', 'Installed Games', 'Установленные игры'),
+    recent: tr('Jogados Recentemente', 'Recently Played', 'Недавно сыгранные'),
     steam: 'Steam',
     bnet: 'Battle.net',
     ea: 'EA Play',
-    custom: currentLang === 'pt' ? 'Jogos Locais' : 'Local Games',
-    fav: currentLang === 'pt' ? 'Favoritos' : 'Favorites'
+    custom: tr('Jogos Locais', 'Local Games', 'Локальные игры'),
+    fav: tr('Favoritos', 'Favorites', 'Избранное')
   };
   const gTitle = document.getElementById('i18n-allTitles');
   if (gTitle) gTitle.textContent = gridTitles[tab] || gridTitles.all;
@@ -5838,8 +6062,8 @@ function togglePs5FullGrid() {
   if (btn) {
     btn.classList.toggle('active', isFull);
     btn.textContent = isFull
-      ? (currentLang === 'pt' ? '▬ Fileira PS5' : '▬ PS5 Row')
-      : (currentLang === 'pt' ? '⊞ Grade Completa' : '⊞ Full Grid');
+      ? tr('▬ Fileira PS5', '▬ PS5 Row', '▬ Ряд PS5')
+      : tr('⊞ Grade Completa', '⊞ Full Grid', '⊞ Полная сетка');
   }
   if (window.GP && GP.updateCols) GP.updateCols();
   playSound('select');
@@ -5886,7 +6110,7 @@ function setHero(idx) {
   if (ptBadge) {
     ptBadge.textContent = meta.playtimeMinutes > 0
       ? `⏱️ ${formatPlaytime(meta.playtimeMinutes)}`
-      : (isInstalled ? (currentLang === 'pt' ? '✓ Instalado' : '✓ Installed') : (currentLang === 'pt' ? '☁️ Biblioteca' : '☁️ Library'));
+      : (isInstalled ? tr('✓ Instalado', '✓ Installed', '✓ Установлено') : tr('☁️ Biblioteca', '☁️ Library', '☁️ В библиотеке'));
   }
 
 
@@ -5897,8 +6121,8 @@ function setHero(idx) {
   const playLabelEl = document.getElementById('i18n-playNow');
   if (playLabelEl) {
     playLabelEl.textContent = isInstalled
-      ? (currentLang === 'pt' ? 'Jogar' : 'Play')
-      : (currentLang === 'pt' ? 'Instalar' : 'Install');
+      ? tr('Jogar', 'Play', 'Играть')
+      : tr('Instalar', 'Install', 'Установить');
   }
 
 
@@ -6028,8 +6252,8 @@ function toggleHeroVisibility() {
   updateHeroToggleUI();
   playSound('select');
   showToast(isNowCollapsed 
-    ? (currentLang === 'pt' ? 'Destaque recolhido' : 'Hero collapsed') 
-    : (currentLang === 'pt' ? 'Destaque expandido' : 'Hero expanded'));
+    ? tr('Destaque recolhido', 'Hero collapsed', 'Баннер свернут') 
+    : tr('Destaque expandido', 'Hero expanded', 'Баннер развернут'));
 }
 
 
@@ -6042,8 +6266,8 @@ function updateHeroToggleUI() {
   const text = document.getElementById('toggleHeroText');
   if (text) {
     text.textContent = isCollapsed 
-      ? (currentLang === 'pt' ? 'Mostrar Destaque' : 'Show Hero') 
-      : (currentLang === 'pt' ? 'Destaque' : 'Hero');
+      ? tr('Mostrar Destaque', 'Show Hero', 'Показать баннер') 
+      : tr('Destaque', 'Hero', 'Баннер');
   }
 }
 
@@ -6112,8 +6336,8 @@ function renderGrid() {
         <div style="font-size: 1.1rem; font-weight: 800; color: #fff;">${t.noGamesTitle}</div>
         <div style="font-size: 0.8rem; margin-top: 4px;">${t.noGamesSub}</div>
         <div style="display:flex; justify-content:center; gap:10px; margin-top:18px; flex-wrap:wrap;">
-          <button class="btn-play-hero" onclick="runSystemGamesCheck()">${currentLang === 'pt' ? 'Verificar jogos instalados' : 'Scan installed games'}</button>
-          <button class="btn-secondary-hero" onclick="openAddGameModal()">${currentLang === 'pt' ? 'Adicionar jogo manualmente' : 'Add a game manually'}</button>
+          <button class="btn-play-hero" onclick="runSystemGamesCheck()">${tr('Verificar jogos instalados', 'Scan installed games', 'Проверить установленные игры')}</button>
+          <button class="btn-secondary-hero" onclick="openAddGameModal()">${tr('Adicionar jogo manualmente', 'Add a game manually', 'Добавить игру вручную')}</button>
         </div>
       </div>
     `;
@@ -6181,12 +6405,12 @@ function renderGrid() {
           ${stIcon}${plat.label}
         </div>
         ${isInstalled ? `
-          <div class="card-installed-badge" title="${currentLang === 'pt' ? 'Instalado no PC' : 'Installed on PC'}${sizeText ? ` • ${escapeHtml(sizeText)}` : ''}">
-            <span>✓</span> <span>${escapeHtml(sizeText) || (currentLang === 'pt' ? 'Instalado' : 'Installed')}</span>
+          <div class="card-installed-badge" title="${tr('Instalado no PC', 'Installed on PC', 'Установлено на ПК')}${sizeText ? ` • ${escapeHtml(sizeText)}` : ''}">
+            <span>✓</span> <span>${escapeHtml(sizeText) || tr('Instalado', 'Installed', 'Установлено')}</span>
           </div>
         ` : `
-          <div class="card-installed-badge uninstalled" style="background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.45); color: #7dd3fc;" title="${currentLang === 'pt' ? 'Disponível na Biblioteca Steam' : 'In Steam Library'}">
-            <span>☁️</span> <span>${currentLang === 'pt' ? 'Biblioteca' : 'Library'}</span>
+          <div class="card-installed-badge uninstalled" style="background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.45); color: #7dd3fc;" title="${tr('Disponível na Biblioteca Steam', 'In Steam Library', 'Доступно в библиотеке Steam')}">
+            <span>☁️</span> <span>${tr('Biblioteca', 'Library', 'В библиотеке')}</span>
           </div>
         `}
         <div class="card-fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(this.closest('.game-card').dataset.id)">
@@ -6200,15 +6424,15 @@ function renderGrid() {
             <button class="card-play-action ${!isInstalled ? 'card-install-action' : ''}" 
                     style="${!isInstalled ? 'background: linear-gradient(135deg, #0284c7, #0369a1); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);' : ''}" 
                     onclick="event.stopPropagation(); launchGame(this.closest('.game-card').dataset.id)">
-              ${isInstalled ? `▶ ${t.playNow}` : `⬇️ ${currentLang === 'pt' ? 'Instalar' : 'Install'}`}
+              ${isInstalled ? `▶ ${t.playNow}` : `⬇️ ${tr('Instalar', 'Install', 'Установить')}`}
             </button>
             <div class="card-actions-subrow">
-              <button class="card-quick-action" onclick="event.stopPropagation(); openGameDetails(this.closest('.game-card').dataset.id)" title="${currentLang === 'pt' ? 'Detalhes do Jogo' : 'Game Details'}">
-                ℹ ${currentLang === 'pt' ? 'Detalhes' : 'Details'}
+              <button class="card-quick-action" onclick="event.stopPropagation(); openGameDetails(this.closest('.game-card').dataset.id)" title="${tr('Detalhes do Jogo', 'Game Details', 'Подробнее об игре')}">
+                ℹ ${tr('Detalhes', 'Details', 'Детали')}
               </button>
               ${g.isCustom ? `
-                <button class="card-quick-action" onclick="event.stopPropagation(); openAddGameModal(this.closest('.game-card').dataset.id)" title="${currentLang === 'pt' ? 'Editar Jogo' : 'Edit Game'}">
-                  ✏️ ${currentLang === 'pt' ? 'Editar' : 'Edit'}
+                <button class="card-quick-action" onclick="event.stopPropagation(); openAddGameModal(this.closest('.game-card').dataset.id)" title="${tr('Editar Jogo', 'Edit Game', 'Редактировать')}">
+                  ✏️ ${tr('Editar', 'Edit', 'Изменить')}
                 </button>
               ` : ''}
             </div>
@@ -6272,7 +6496,7 @@ function openGameDetails(id) {
   const playBtn = document.getElementById('mPlayBtn');
   playBtn.setAttribute('data-id', g.id);
   const isInst = isGameInstalled(g);
-  playBtn.textContent = isInst ? `▶ ${I18N[currentLang].playNow || 'Jogar Agora'}` : `⬇️ ${currentLang === 'pt' ? 'Instalar no Steam' : 'Install on Steam'}`;
+  playBtn.textContent = isInst ? `▶ ${I18N[currentLang].playNow || 'Jogar Agora'}` : `⬇️ ${tr('Instalar no Steam', 'Install on Steam', 'Установить в Steam')}`;
   playBtn.style.background = isInst ? 'var(--accent-gradient)' : 'linear-gradient(135deg, #0284c7, #0369a1)';
   playBtn.onclick = () => { launchGame(g.id); hideModal('gameModal'); };
 
@@ -6341,7 +6565,7 @@ function setGameProgressStatus(status) {
   cachedFilteredGames = null;
   renderGrid();
   playSound('select');
-  showToast(currentLang === 'pt' ? 'Status do jogo atualizado!' : 'Game status updated!');
+  showToast(tr('Status do jogo atualizado!', 'Game status updated!', 'Статус игры обновлен!'));
 }
 
 
@@ -6379,8 +6603,8 @@ async function openCurrentGameFolder() {
     } catch (e) {}
   }
   showToast(opened
-    ? (currentLang === 'pt' ? '📂 Pasta aberta no Windows Explorer!' : '📂 Folder opened in Explorer!')
-    : (currentLang === 'pt' ? '📂 Abrindo diretório do jogo...' : '📂 Opening game directory...'));
+    ? tr('📂 Pasta aberta no Windows Explorer!', '📂 Folder opened in Explorer!', '📂 Папка открыта в Проводнике!')
+    : tr('📂 Abrindo diretório do jogo...', '📂 Opening game directory...', '📂 Открытие папки игры...'));
 }
 
 
@@ -6518,7 +6742,7 @@ function spinGameRoulette() {
       selectGame(rouletteWinnerId, { silent: true });
       playSound('fav');
       isRouletteSpinning = false;
-      showToast(currentLang === 'pt' ? `🎲 Sorteado: ${pick.name}!` : `🎲 Picked: ${pick.name}!`);
+      showToast(tr(`🎲 Sorteado: ${pick.name}!`, `🎲 Picked: ${pick.name}!`, `🎲 Выбрано: ${pick.name}!`));
     }
   }
   nextTick();
@@ -6731,7 +6955,7 @@ function exportUserDataBackup() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(currentLang === 'pt' ? '💾 Backup exportado com sucesso!' : '💾 Backup exported successfully!');
+  showToast(tr('💾 Backup exportado com sucesso!', '💾 Backup exported successfully!', '💾 Резервная копия успешно экспортирована!'));
 }
 
 
@@ -6739,7 +6963,7 @@ function importUserDataBackup(inputEl) {
   const file = inputEl && inputEl.files && inputEl.files[0];
   if (!file) return;
   if (file.size > 5 * 1024 * 1024) {
-    showToast(currentLang === 'pt' ? 'O backup deve ter no máximo 5 MB.' : 'The backup must be 5 MB or smaller.');
+    showToast(tr('O backup deve ter no máximo 5 MB.', 'The backup must be 5 MB or smaller.', 'Размер файла резервной копии не должен превышать 5 МБ.'));
     inputEl.value = '';
     return;
   }
@@ -6775,9 +6999,9 @@ function importUserDataBackup(inputEl) {
       renderGenreChips();
       renderGrid();
       playSound('fav');
-      showToast(currentLang === 'pt' ? '✅ Backup restaurado com sucesso!' : '✅ Backup restored successfully!');
+      showToast(tr('✅ Backup restaurado com sucesso!', '✅ Backup restored successfully!', '✅ Резервная копия успешно восстановлена!'));
     } catch (err) {
-      showToast(currentLang === 'pt' ? '❌ Arquivo de backup inválido!' : '❌ Invalid backup file!');
+      showToast(tr('❌ Arquivo de backup inválido!', '❌ Invalid backup file!', '❌ Неверный файл резервной копии!'));
     }
   };
   reader.readAsText(file);
@@ -6868,13 +7092,13 @@ async function runSystemGamesCheck() {
       listEl.innerHTML = `
         <div style="text-align:center; padding: 24px 10px; color: var(--text-muted);">
           <div style="font-size: 2rem; margin-bottom: 6px;">⚠️</div>
-          <div style="font-weight: 800; color: #fff;">${currentLang === 'pt' ? 'Ponte do yLauncher não respondeu' : 'Native Bridge unavailable'}</div>
-          <div style="font-size: 0.8rem; margin-top: 4px;">${currentLang === 'pt' ? 'Certifique-se de que o aplicativo yLauncher.exe está em execução para ler as bibliotecas Steam e Epic.' : 'Ensure yLauncher.exe is running to scan Steam and Epic folders.'}</div>
+          <div style="font-weight: 800; color: #fff;">${tr('Ponte do yLauncher não respondeu', 'Native Bridge unavailable', 'Мост yLauncher не отвечает')}</div>
+          <div style="font-size: 0.8rem; margin-top: 4px;">${tr('Certifique-se de que o aplicativo yLauncher.exe está em execução para ler as bibliotecas Steam e Epic.', 'Ensure yLauncher.exe is running to scan Steam and Epic folders.', 'Убедитесь, что yLauncher.exe запущен для чтения библиотек Steam и Epic.')}</div>
         </div>
       `;
     }
     if (titleEl) {
-      titleEl.textContent = currentLang === 'pt' ? 'Falha na comunicação com o sistema' : 'System bridge unavailable';
+      titleEl.textContent = tr('Falha na comunicação com o sistema', 'System bridge unavailable', 'Ошибка связи с системным мостом');
       titleEl.style.color = '#f87171';
     }
     return;
@@ -6937,9 +7161,11 @@ async function runSystemGamesCheck() {
   const installedCount = detectedGames.filter(g => g.isInstalled === true).length;
   const libraryCount = detectedGames.length - installedCount;
   if (titleEl) {
-    titleEl.textContent = currentLang === 'pt' 
-      ? `✓ ${detectedGames.length} jogos detectados (${installedCount} instalados, ${libraryCount} na biblioteca)!`
-      : `✓ ${detectedGames.length} games found (${installedCount} installed, ${libraryCount} in library)!`;
+    titleEl.textContent = tr(
+      `✓ ${detectedGames.length} jogos detectados (${installedCount} instalados, ${libraryCount} na biblioteca)!`,
+      `✓ ${detectedGames.length} games found (${installedCount} installed, ${libraryCount} in library)!`,
+      `✓ Обнаружено игр: ${detectedGames.length} (${installedCount} установленных, ${libraryCount} в библиотеке)!`
+    );
     titleEl.style.color = '#86efac';
   }
 
@@ -6949,7 +7175,7 @@ async function runSystemGamesCheck() {
       listEl.innerHTML = `
         <div style="text-align:center; padding: 24px; color: var(--text-muted);">
           <div>ℹ️</div>
-          <div>${currentLang === 'pt' ? 'Nenhum jogo instalado detectado nos diretórios padrão.' : 'No installed games found in default directories.'}</div>
+          <div>${tr('Nenhum jogo instalado detectado nos diretórios padrão.', 'No installed games found in default directories.', 'Установленных игр в стандартных папках не обнаружено.')}</div>
         </div>
       `;
     } else {
@@ -6971,19 +7197,19 @@ async function runSystemGamesCheck() {
                   <span style="color: ${platColor}; font-weight:800; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">${platLabel}</span>
                   ${safeSizeText ? `<span>💾 ${safeSizeText}</span>` : ''}
                   ${isInst 
-                    ? '<span style="color: #4ade80; font-weight: 700;">✓ Pronto para jogar</span>' 
-                    : '<span style="color: #38bdf8; font-weight: 700;">☁️ Na Biblioteca Steam</span>'}
+                    ? `<span style="color: #4ade80; font-weight: 700;">${tr('✓ Pronto para jogar', '✓ Ready to play', '✓ Готово к игре')}</span>` 
+                    : `<span style="color: #38bdf8; font-weight: 700;">${tr('☁️ Na Biblioteca Steam', '☁️ In Steam Library', '☁️ В библиотеке Steam')}</span>`}
                 </div>
               </div>
             </div>
             <div style="display:flex; gap: 8px; flex-shrink: 0;">
               <button class="opt-btn" onclick="hideModal('systemCheckModal'); selectGame(this.closest('[data-game-id]').dataset.gameId);" style="padding: 7px 12px; font-size: 0.78rem; border-radius: 6px;">
-                👁️ Ver
+                👁️ ${tr('Ver', 'View', 'Обзор')}
               </button>
               <button class="opt-btn ${isInst ? 'active' : ''}" 
                       style="${!isInst ? 'background: rgba(56, 189, 248, 0.25); border-color: #38bdf8; color: #fff;' : ''}" 
                       onclick="hideModal('systemCheckModal'); launchGame(this.closest('[data-game-id]').dataset.gameId);" style="padding: 7px 14px; font-size: 0.78rem; border-radius: 6px; font-weight: 800;">
-                ${isInst ? '▶ Jogar' : '⬇️ Instalar'}
+                ${isInst ? tr('▶ Jogar', '▶ Play', '▶ Играть') : tr('⬇️ Instalar', '⬇️ Install', '⬇️ Установить')}
               </button>
             </div>
           </div>
@@ -6996,9 +7222,11 @@ async function runSystemGamesCheck() {
   updateBadges();
   renderGrid();
   playSound('fav');
-  showToast(currentLang === 'pt' 
-    ? `Verificação concluída: ${detectedGames.length} jogos verificados.`
-    : `Scan complete: ${detectedGames.length} games verified.`);
+  showToast(tr(
+    `Verificação concluída: ${detectedGames.length} jogos verificados.`,
+    `Scan complete: ${detectedGames.length} games verified.`,
+    `Сканирование завершено: проверено игр: ${detectedGames.length}.`
+  ));
 }
 
 
@@ -7241,12 +7469,38 @@ const GP = {
   eventSource: null,
   bridgePort: 48123,
   pollingTimer: null,
+  blockedByGame: false,
+  backgroundLockEnabled: true,
 
+  updateGameBlockedOverlay(blocked) {
+    this.blockedByGame = !!blocked;
+    const indicator = document.getElementById('hudGameBlockedIndicator');
+    if (indicator) {
+      indicator.style.display = (this.backgroundLockEnabled && this.blockedByGame) ? 'inline-flex' : 'none';
+    }
+    const txt = document.getElementById('i18n-gameBlockedIndicator');
+    if (txt) {
+      txt.textContent = tr('🔒 Pausado', '🔒 Paused', '🔒 Пауза');
+    }
+  },
+
+  onWindowBlur() {
+    this.prevButtons = [];
+    this.heldDir = null;
+    if (this.stickEngaged) {
+      this.stickEngaged.up = false;
+      this.stickEngaged.down = false;
+      this.stickEngaged.left = false;
+      this.stickEngaged.right = false;
+    }
+    if (this.backgroundLockEnabled) {
+      this.updateGameBlockedOverlay(true);
+    }
+  },
 
   init() {
     this.initNativeBridge();
     this.startStatePolling();
-
 
     window.addEventListener('gamepadconnected', (e) => {
       this.connected = true;
@@ -7258,7 +7512,6 @@ const GP = {
       this.updateVisualFocus();
     });
 
-
     window.addEventListener('gamepaddisconnected', (e) => {
       if (this.activeSlot === e.gamepad.index) {
         this.activeSlot = -1;
@@ -7269,28 +7522,30 @@ const GP = {
         if (!stillConnected) {
           this.connected = false;
           this.updateHudIndicator(false);
-          showToast(currentLang === 'pt' ? '🎮 Controle desconectado' : '🎮 Controller disconnected');
+          showToast(tr('🎮 Controle desconectado', '🎮 Controller disconnected', '🎮 Геймпад отключен'));
         }
       }
     });
 
+    window.addEventListener('blur', () => {
+      this.onWindowBlur();
+    });
 
     window.addEventListener('focus', () => {
       this.onWindowFocus();
     });
 
-
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         this.onWindowFocus();
+      } else {
+        this.onWindowBlur();
       }
     });
-
 
     window.addEventListener('pageshow', () => {
       this.onWindowFocus();
     });
-
 
     // Garante foco na janela ao inicializar
     window.focus();
@@ -7298,10 +7553,8 @@ const GP = {
       this.updateVisualFocus();
     }, 200);
 
-
     requestAnimationFrame(() => this.loop());
   },
-
 
   onWindowFocus() {
     this.updateVisualFocus();
@@ -7314,6 +7567,14 @@ const GP = {
     fetch(nativeBridgeUrl(this.bridgePort, '/gamepad-state'))
       .then(r => r.json())
       .then(data => {
+        const isBlocked = !!(data && (data.blocked || data.isForeground === false || (typeof data.gamesRunning === 'number' && data.gamesRunning > 0)));
+        this.updateGameBlockedOverlay(isBlocked);
+        if (isBlocked && this.backgroundLockEnabled) {
+          this.nativeGamepad = null;
+          this.prevButtons = [];
+          this.heldDir = null;
+          return;
+        }
         if (data && data.connected) {
           const wasConnected = this.connected;
           this.nativeGamepad = data;
@@ -7328,11 +7589,9 @@ const GP = {
       .catch(() => {});
   },
 
-
   initNativeBridge() {
     const ports = [48123, 48124, 48125];
     let portIdx = 0;
-
 
     const connectSse = () => {
       if (portIdx >= ports.length) {
@@ -7349,7 +7608,6 @@ const GP = {
         const es = new EventSource(nativeBridgeUrl(port, '/gamepad-stream'));
         this.eventSource = es;
 
-
         es.onmessage = (e) => {
           try {
             if (this.pollingTimer) {
@@ -7357,6 +7615,14 @@ const GP = {
               this.pollingTimer = null;
             }
             const data = JSON.parse(e.data);
+            const isBlocked = !!(data && (data.blocked || data.isForeground === false || (typeof data.gamesRunning === 'number' && data.gamesRunning > 0)));
+            this.updateGameBlockedOverlay(isBlocked);
+            if (isBlocked && this.backgroundLockEnabled) {
+              this.nativeGamepad = null;
+              this.prevButtons = [];
+              this.heldDir = null;
+              return;
+            }
             if (data && data.connected) {
               const wasConnected = this.connected;
               this.nativeGamepad = data;
@@ -7376,7 +7642,6 @@ const GP = {
           } catch (err) {}
         };
 
-
         es.onerror = () => {
           try { es.close(); } catch (err) {}
           this.eventSource = null;
@@ -7389,10 +7654,8 @@ const GP = {
       }
     };
 
-
     connectSse();
   },
-
 
   startStatePolling() {
     if (this.pollingTimer) return;
@@ -7401,6 +7664,14 @@ const GP = {
         const res = await fetch(nativeBridgeUrl(this.bridgePort, '/gamepad-state'));
         if (res.ok) {
           const data = await res.json();
+          const isBlocked = !!(data && (data.blocked || data.isForeground === false || (typeof data.gamesRunning === 'number' && data.gamesRunning > 0)));
+          this.updateGameBlockedOverlay(isBlocked);
+          if (isBlocked && this.backgroundLockEnabled) {
+            this.nativeGamepad = null;
+            this.prevButtons = [];
+            this.heldDir = null;
+            return;
+          }
           if (data && data.connected) {
             const wasConnected = this.connected;
             this.nativeGamepad = data;
@@ -7417,7 +7688,6 @@ const GP = {
       } catch (e) {}
     }, 100);
   },
-
 
   updateHudIndicator(active) {
     const badge = document.getElementById('topControllerBadge');
@@ -7440,7 +7710,6 @@ const GP = {
     }
   },
 
-
   lastPollTime: 0,
   loop() {
     const now = performance.now();
@@ -7455,8 +7724,19 @@ const GP = {
     requestAnimationFrame(() => this.loop());
   },
 
-
   poll() {
+    if (this.backgroundLockEnabled && (this.blockedByGame || !document.hasFocus() || document.hidden)) {
+      this.prevButtons = [];
+      this.heldDir = null;
+      if (this.stickEngaged) {
+        this.stickEngaged.up = false;
+        this.stickEngaged.down = false;
+        this.stickEngaged.left = false;
+        this.stickEngaged.right = false;
+      }
+      return;
+    }
+
     let gp = null;
 
 
@@ -8085,7 +8365,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try { loadCustomGames(); } catch (e) { console.error('loadCustomGames:', e); }
   try { loadThemeConfig(); } catch (e) { console.error('loadThemeConfig:', e); }
   try { loadLanguage(); } catch (e) { console.error('loadLanguage:', e); }
-
+  try { loadBackgroundLockConfig(); } catch (e) { console.error('loadBackgroundLockConfig:', e); }
 
   // Rolagem horizontal suave com a roda do mouse na fileira PS5
   try {
@@ -8100,7 +8380,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {}
 
-
   try {
     const savedSound = localStorage.getItem('ylauncher_sound') || localStorage.getItem('gamehub_sound');
     if (savedSound === '0') {
@@ -8108,7 +8387,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const tgl = document.getElementById('settingsSoundToggle');
       if (tgl) tgl.classList.remove('active');
       const st = document.getElementById('i18n-soundState');
-      if (st) st.textContent = currentLang === 'pt' ? 'Desligado' : 'Off';
+      if (st) st.textContent = tr('Desligado', 'Off', 'Выкл');
     }
   } catch (e) { console.error('sound init:', e); }
 
@@ -8176,6 +8455,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Teclado espelhando atalhos do controle e navegação
   document.addEventListener('keydown', (e) => {
+    if (window.GP && GP.backgroundLockEnabled && (GP.blockedByGame || !document.hasFocus() || document.hidden)) return;
     if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA' || document.activeElement.tagName === 'SELECT')) return;
 
 

@@ -125,6 +125,19 @@ internal static class Program
 	[DllImport("user32.dll")]
 	private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
+	[DllImport("user32.dll")]
+	private static extern IntPtr GetForegroundWindow();
+
+	[DllImport("user32.dll", SetLastError = true)]
+	private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+	[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+	private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+	[DllImport("user32.dll")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool IsIconic(IntPtr hWnd);
+
 	[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 	private static extern bool GlobalMemoryStatusEx([In][Out] MEMORYSTATUSEX lpBuffer);
 
@@ -445,8 +458,114 @@ internal static class Program
 		}
 	}
 
+	public static bool IsAnyGameRunning()
+	{
+		lock (_launchedProcesses)
+		{
+			_launchedProcesses.RemoveAll(delegate(Process p)
+			{
+				try
+				{
+					return p.HasExited;
+				}
+				catch
+				{
+					return true;
+				}
+			});
+			return _launchedProcesses.Count > 0;
+		}
+	}
+
+	public static bool IsYLauncherForeground()
+	{
+		try
+		{
+			IntPtr fgWnd = GetForegroundWindow();
+			if (fgWnd == IntPtr.Zero)
+			{
+				return false;
+			}
+
+			if (_edgeProc != null && !_edgeProc.HasExited)
+			{
+				try
+				{
+					if (_edgeProc.MainWindowHandle != IntPtr.Zero && IsIconic(_edgeProc.MainWindowHandle))
+					{
+						return false;
+					}
+				}
+				catch
+				{
+				}
+			}
+
+			GetWindowThreadProcessId(fgWnd, out uint fgPid);
+			if (fgPid == 0)
+			{
+				return false;
+			}
+
+			uint currentPid = (uint)Process.GetCurrentProcess().Id;
+			if (fgPid == currentPid)
+			{
+				return true;
+			}
+
+			if (_edgeProc != null && !_edgeProc.HasExited && fgPid == (uint)_edgeProc.Id)
+			{
+				return true;
+			}
+
+			try
+			{
+				StringBuilder titleSb = new StringBuilder(256);
+				if (GetWindowText(fgWnd, titleSb, 256) > 0)
+				{
+					string title = titleSb.ToString();
+					if (title.IndexOf("yLauncher", StringComparison.OrdinalIgnoreCase) >= 0)
+					{
+						return true;
+					}
+				}
+			}
+			catch
+			{
+			}
+
+			try
+			{
+				Process proc = Process.GetProcessById((int)fgPid);
+				if (string.Equals(proc.ProcessName, "msedge", StringComparison.OrdinalIgnoreCase))
+				{
+					if (!string.IsNullOrEmpty(_activeProfileDir))
+					{
+						return true;
+					}
+				}
+			}
+			catch
+			{
+			}
+
+			return false;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
 	public static string GetGamepadJson()
 	{
+		bool gameRunning = IsAnyGameRunning();
+		bool isForeground = IsYLauncherForeground();
+		if (gameRunning || !isForeground)
+		{
+			return "{\"connected\":true,\"blocked\":true,\"isForeground\":" + (isForeground ? "true" : "false") + ",\"gamesRunning\":" + (gameRunning ? "1" : "0") + ",\"buttons\":[],\"axes\":[0.0,0.0,0.0,0.0]}";
+		}
+
 		for (int i = 0; i < 4; i++)
 		{
 			if (SafeXInputGetState(i, out var pState) == 0)
@@ -513,7 +632,7 @@ internal static class Program
 				return stringBuilder.ToString();
 			}
 		}
-		return "{\"connected\":false,\"buttons\":[],\"axes\":[]}";
+		return "{\"connected\":false,\"blocked\":false,\"isForeground\":true,\"gamesRunning\":0,\"buttons\":[],\"axes\":[]}";
 	}
 
 	private static void AppendBtn(StringBuilder sb, bool pressed, float val)
@@ -634,14 +753,26 @@ internal static class Program
 			{
 			}
 		}
+		string sysLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+		bool sysRu = sysLang == "ru";
+		bool sysPt = sysLang == "pt";
+
 		if (!File.Exists(text))
 		{
-			MessageBox.Show("O arquivo 'index.html' não foi encontrado na pasta do yLauncher!\n\nCertifique-se de que o yLauncher.exe e o index.html estejam na mesma pasta.", "yLauncher - Erro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+			string msg = sysRu ? "Файл 'index.html' не найден в папке yLauncher!\n\nУбедитесь, что yLauncher.exe и index.html находятся в одной папке."
+				: sysPt ? "O arquivo 'index.html' não foi encontrado na pasta do yLauncher!\n\nCertifique-se de que o yLauncher.exe e o index.html estejam na mesma pasta."
+				: "The 'index.html' file was not found in the yLauncher folder!\n\nEnsure that yLauncher.exe and index.html are located in the same directory.";
+			string errTitle = sysRu ? "yLauncher - Ошибка" : sysPt ? "yLauncher - Erro" : "yLauncher - Error";
+			MessageBox.Show(msg, errTitle, MessageBoxButtons.OK, MessageBoxIcon.Hand);
 			return;
 		}
 		if (string.IsNullOrEmpty(text3) || !File.Exists(text3))
 		{
-			MessageBox.Show("Microsoft Edge não foi encontrado neste computador.\n\nInstale o Microsoft Edge para executar o yLauncher.", "yLauncher - Erro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+			string msg = sysRu ? "Microsoft Edge не найден на этом компьютере.\n\nУстановите Microsoft Edge для запуска yLauncher."
+				: sysPt ? "Microsoft Edge não foi encontrado neste computador.\n\nInstale o Microsoft Edge para executar o yLauncher."
+				: "Microsoft Edge was not found on this computer.\n\nPlease install Microsoft Edge to run yLauncher.";
+			string errTitle = sysRu ? "yLauncher - Ошибка" : sysPt ? "yLauncher - Erro" : "yLauncher - Error";
+			MessageBox.Show(msg, errTitle, MessageBoxButtons.OK, MessageBoxIcon.Hand);
 			return;
 		}
 		string text5 = "file:///" + text.Replace("\\", "/").Replace(" ", "%20") + "?bridgeToken=" + _bridgeToken;
@@ -1069,13 +1200,34 @@ internal static class Program
 			{
 				string picked = "";
 				string pName = "";
+				string lang = request.QueryString["lang"] ?? "";
+				if (string.IsNullOrEmpty(lang))
+				{
+					lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+				}
+				bool isRu = lang.StartsWith("ru", StringComparison.OrdinalIgnoreCase);
+				bool isPt = lang.StartsWith("pt", StringComparison.OrdinalIgnoreCase);
+
 				Thread thread = new Thread((ThreadStart)delegate
 				{
 					try
 					{
 						using OpenFileDialog openFileDialog = new OpenFileDialog();
-						openFileDialog.Title = "Selecione o executável do jogo (.exe, .lnk, .bat)";
-						openFileDialog.Filter = "Jogos & Executáveis (*.exe;*.lnk;*.bat;*.cmd)|*.exe;*.lnk;*.bat;*.cmd|Todos os Arquivos (*.*)|*.*";
+						if (isRu)
+						{
+							openFileDialog.Title = "Выберите исполняемый файл игры (.exe, .lnk, .bat)";
+							openFileDialog.Filter = "Игры и исполняемые файлы (*.exe;*.lnk;*.bat;*.cmd)|*.exe;*.lnk;*.bat;*.cmd|Все файлы (*.*)|*.*";
+						}
+						else if (isPt)
+						{
+							openFileDialog.Title = "Selecione o executável do jogo (.exe, .lnk, .bat)";
+							openFileDialog.Filter = "Jogos & Executáveis (*.exe;*.lnk;*.bat;*.cmd)|*.exe;*.lnk;*.bat;*.cmd|Todos os Arquivos (*.*)|*.*";
+						}
+						else
+						{
+							openFileDialog.Title = "Select game executable (.exe, .lnk, .bat)";
+							openFileDialog.Filter = "Games & Executables (*.exe;*.lnk;*.bat;*.cmd)|*.exe;*.lnk;*.bat;*.cmd|All Files (*.*)|*.*";
+						}
 						openFileDialog.CheckFileExists = true;
 						if (openFileDialog.ShowDialog() == DialogResult.OK)
 						{
@@ -1330,6 +1482,16 @@ internal static class Program
 		lock (_launchedProcesses)
 		{
 			_launchedProcesses.Add(gameProc);
+		}
+		try
+		{
+			if (_edgeProc != null && !_edgeProc.HasExited && _edgeProc.MainWindowHandle != IntPtr.Zero)
+			{
+				ShowWindow(_edgeProc.MainWindowHandle, 6);
+			}
+		}
+		catch
+		{
 		}
 		ThreadPool.QueueUserWorkItem(delegate
 		{

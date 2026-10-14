@@ -1,5 +1,21 @@
 # Histórico de versões
 
+## 2.1.2 — Suporte Multilíngue (Russo, Inglês, Português) e Bloqueio de Entrada em Segundo Plano
+
+- **Suporte Multilíngue Completo**:
+  - Adicionado suporte nativo e completo a Russo (RU), Inglês (EN) e Português (PT).
+  - Seletor rápido de idiomas no Hub de Configurações com persistência imediata.
+  - Tradução completa da interface web, metadados, estúdio SteamGridDB, roleta gamer e mensagens de telemetria.
+  - Instalador e desinstalador com detecção automática do idioma do sistema operacional e interface traduzida.
+  - Mensagens nativas e caixas de diálogo do Windows traduzidas conforme a localidade do sistema.
+- **Bloqueio de Entrada em Segundo Plano (Background Input Lock)**:
+  - O launcher agora ignora automaticamente comandos de controle (gamepad) e teclado quando perde o foco da janela.
+  - Detecção nativa via Win32 API de janelas e processos de jogos em primeiro plano.
+  - Minimização automática da interface do launcher ao iniciar qualquer jogo, restaurando-a ao encerrar.
+  - O endpoint de streaming do controle zera os eixos e botões enquanto jogos estiverem em execução ou o launcher estiver em segundo plano.
+  - Novo indicador visual no HUD (`🔒 Pausado`) sinalizando quando as entradas estão bloqueadas.
+  - Nova opção no Hub de Configurações para ativar/desativar o Bloqueio em Segundo Plano.
+
 ## 2.1.1 — Banners Widescreen do SteamGridDB e Navegação por Controle
 
 - Download e aplicação de backgrounds e banners widescreen do SteamGridDB (Heroes 1920x620 e grids horizontais).
